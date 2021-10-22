@@ -5,6 +5,8 @@ import time
 import threading
 import sys
 
+from replica import MAXIMUM_LOG_SIZE
+
 class Acceptor:
     def __init__(self, replica):
         self.f = replica.f
@@ -13,6 +15,7 @@ class Acceptor:
         self.view = replica.view
         self.addr = replica.addr
         
+        self.chatLog = [MAXIMUM_LOG_SIZE]
 
     def change_leader(self, msg):
         # modular?
@@ -27,7 +30,14 @@ class Acceptor:
             msg['replicaID'] = self.replicaID
             msg = json.dumps(msg)
             send_socket.sendall(msg.encode('utf-8'))
+            send_socket.close()
             return True
         return False
+
+    def read_chatLog(self):
+        return self.chatLog
+
+    def update_chatLog(self, newLog):
+        self.chatLog = newLog
 
         

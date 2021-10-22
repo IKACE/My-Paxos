@@ -8,6 +8,7 @@ from proposer import Proposer
 from learner import Learner
 from acceptor import Acceptor
 
+MAXIMUM_LOG_SIZE = 10
 
 class Replica:
     def __init__(self, f, replicaList, replicaID, view):
@@ -26,18 +27,18 @@ class Replica:
         self.listen_socket.listen(20)
         # assume timeout 1, less than client timeout time
         self.listen_socket.settimeout(1)
-        self.listen_thread = threading.Thread(target=self.listen)
+        self.listen_thread = threading.Thread(target=self.listen, args=())
         self.listen_thread.start()
 
         self.acceptor = Acceptor(self)
         self.learner = Learner(self)
-        self.proposer = Proposer(self)
+        self.proposer = Proposer(self, self.acceptor)
 
         self.readyCount = 1
         # make sure we have all/>=f+1? processes then proceed
         self.warm_up()
         print("# Replica {} is warmed up and ready to proceed".format(self.replicaID))
-        sys.stdout.flush()
+  
         #if i am the leader
         if view == replicaID:
             self.proposer.election()
@@ -46,8 +47,8 @@ class Replica:
 
     # send warm-up message to leader, be ready for election
     def warm_up(self):
-        print("# Replica {} broadcasting ready up message".format(self.replicaID))
-        sys.stdout.flush()
+        # print("# Replica {} broadcasting ready up message".format(self.replicaID))
+        # sys.stdout.flush()
         msg = {}
         msg['type'] = 'Ready'
         msg['replicaID'] = self.replicaID
@@ -56,7 +57,7 @@ class Replica:
             if idx == self.replicaID:
                 continue
             while True:
-                sys.stdout.flush()
+
                 time.sleep(1)
                 send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
@@ -64,14 +65,17 @@ class Replica:
                 except socket.error:
                     continue
                 send_socket.sendall(msg.encode('utf-8'))
+                print("# Replica {} send ready up message to {} {}".format(self.replicaID, idx, replicaAddr))
+                send_socket.close()
                 break
+        # time.sleep(1)
         while self.readyCount != 2*self.f+1:
             time.sleep(1)
         
 
     def listen(self):
         while True:
-            sys.stdout.flush()
+
             # avoid busy waiting
             time.sleep(1)
             try:
@@ -101,3 +105,6 @@ class Replica:
             if msg['type'] == 'Ready':
                 print("# Replica {} received ready up message from {}".format(self.replicaID, msg['replicaID'])) 
                 self.readyCount += 1
+            if msg['type'] == 'ClientRequest':
+                if self.proposer.is_elected():
+                    self.proposer.propose(msg)

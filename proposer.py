@@ -5,9 +5,10 @@ import time
 import threading
 import sys
 
+from replica import MAXIMUM_LOG_SIZE
 
 class Proposer:
-    def __init__(self, replica):
+    def __init__(self, replica, acceptor):
         self.f = replica.f
         self.replicaList = replica.replicaList
         self.replicaID = replica.replicaID
@@ -15,6 +16,9 @@ class Proposer:
         self.addr = replica.addr
         self.readyCount = 1
         self.voteCount = 1
+        self.acceptor = acceptor
+
+        self.elected = False
     
     def election(self):
         """start election protocol, leader sends IAmLeader message, wait to collect more than f votes"""
@@ -30,15 +34,24 @@ class Proposer:
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             send_socket.connect(replicaAddr)
             send_socket.sendall(msg.encode('utf-8'))
+            send_socket.close()
         while self.voteCount < (self.f + 1):
             time.sleep(0.1) 
             # timeout?
         print("# Proposer {} is elected as leader".format(self.replicaID))
         sys.stdout.flush()
+        self.elected = True
         return True
 
     def add_vote(self):
         self.voteCount += 1
+
+    def is_elected(self):
+        return self.elected
+
+    def propose(self, msg):
+        chatLog = self.acceptor.read_chatLog()
+
 
     # def warm_up(self):
     #     self.readyCount += 1

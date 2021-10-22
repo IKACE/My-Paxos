@@ -38,6 +38,7 @@ class Client:
         send_socket.connect(self.replicaList[self.view][0], self.replicaList[self.view][1])
         msg = json.dumps(msg)
         send_socket.sendall(msg.encode('utf-8'))
+        send_socket.close()
         self.finished = False
         # callback ?
         while self.finished == False:
