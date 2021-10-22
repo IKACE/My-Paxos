@@ -1,0 +1,86 @@
+# Replica 0 initializing
+# Replica 1 initializing
+# Replica 2 initializing
+# Replica 0 send ready up message to 1 ('localhost', 8001)
+# Replica 2 send ready up message to 0 ('localhost', 8000)
+# Replica 1 send ready up message to 0 ('localhost', 8000)
+# Replica 0 received ready up message from 2
+# Replica 1 received ready up message from 0
+# Replica 0 received ready up message from 1
+# Replica 1 send ready up message to 2 ('localhost', 8002)
+# Replica 2 received ready up message from 1
+# Replica 0 send ready up message to 2 ('localhost', 8002)
+# Replica 0 is warmed up and ready to proceed
+# Replica 2 send ready up message to 1 ('localhost', 8001)
+# Replica 1 received ready up message from 2
+# Acceptor 1 accepts 0 as new leader
+# Replica 2 received ready up message from 0
+### Proposer 0 is elected as leader
+# Acceptor 2 accepts 0 as new leader
+# Replica 1 is warmed up and ready to proceed
+# Replica 2 is warmed up and ready to proceed
+### Client 1 initializing
+### Client 2 initializing
+### Client 1 sending request # 0 message Hello World!
+### Client 4 initializing
+### Client 2 sending request # 0 message Hello World!
+# Proposer 0 proposed seq_num 0 for client [1, 0, ['localhost', 2346]] and message Hello World!
+### Client 0 initializing
+### Client 4 sending request # 0 message Hello World!
+### Client 0 sending request # 0 message Hello World!
+### Client 3 initializing
+### Client 3 sending request # 0 message Hello World!
+# Proposer 0 proposed seq_num 1 for client [2, 0, ['localhost', 2347]] and message Hello World!
+##### Learner 1 learned seq num 0 for client [1, 0, ['localhost', 2346]] and message Hello World!
+##### Learner 1 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}]
+##### Learner 2 learned seq num 0 for client [1, 0, ['localhost', 2346]] and message Hello World!
+##### Learner 1 has sequence array hash value 6764270921498658133
+##### Learner 2 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}]
+##### Learner 2 has sequence array hash value 5047783649253024428
+##### Learner 0 learned seq num 0 for client [1, 0, ['localhost', 2346]] and message Hello World!
+##### Learner 0 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}]
+##### Learner 0 has sequence array hash value 1554992519163085324
+### Client 1 request # 0 complete
+# Proposer 0 proposed seq_num 2 for client [4, 0, ['localhost', 2349]] and message Hello World!
+##### Learner 2 learned seq num 1 for client [2, 0, ['localhost', 2347]] and message Hello World!
+##### Learner 1 learned seq num 1 for client [2, 0, ['localhost', 2347]] and message Hello World!
+##### Learner 2 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}]
+##### Learner 1 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}]
+##### Learner 2 has sequence array hash value 2049789561285785850
+##### Learner 1 has sequence array hash value 4450001353888114634
+# Proposer 0 proposed seq_num 3 for client [0, 0, ['localhost', 2345]] and message Hello World!
+# Proposer 0 proposed seq_num 4 for client [3, 0, ['localhost', 2348]] and message Hello World!
+##### Learner 1 learned seq num 2 for client [4, 0, ['localhost', 2349]] and message Hello World!
+##### Learner 2 learned seq num 2 for client [4, 0, ['localhost', 2349]] and message Hello World!
+##### Learner 1 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}]
+##### Learner 2 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}]
+##### Learner 1 has sequence array hash value -5200309303429268954
+##### Learner 2 has sequence array hash value -8568649342716874676
+##### Learner 0 learned seq num 1 for client [2, 0, ['localhost', 2347]] and message Hello World!
+##### Learner 0 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}]
+##### Learner 0 has sequence array hash value 6215900108223212796
+##### Learner 2 learned seq num 3 for client [0, 0, ['localhost', 2345]] and message Hello World!
+##### Learner 2 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}]
+##### Learner 2 has sequence array hash value -331309529634478992
+##### Learner 1 learned seq num 3 for client [0, 0, ['localhost', 2345]] and message Hello World!
+##### Learner 1 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}]
+##### Learner 1 has sequence array hash value -355670951934660946
+### Client 2 request # 0 complete
+##### Learner 0 learned seq num 2 for client [4, 0, ['localhost', 2349]] and message Hello World!
+##### Learner 0 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}]
+##### Learner 0 has sequence array hash value -4516051859060852412
+##### Learner 2 learned seq num 4 for client [3, 0, ['localhost', 2348]] and message Hello World!
+##### Learner 1 learned seq num 4 for client [3, 0, ['localhost', 2348]] and message Hello World!
+##### Learner 2 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}, {'message': 'Hello World!', 'client': [3, 0, ['localhost', 2348]]}]
+##### Learner 2 has sequence array hash value 7830395516224180592
+##### Learner 1 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}, {'message': 'Hello World!', 'client': [3, 0, ['localhost', 2348]]}]
+##### Learner 1 has sequence array hash value -3924189460283123409
+##### Learner 0 learned seq num 3 for client [0, 0, ['localhost', 2345]] and message Hello World!
+##### Learner 0 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}]
+##### Learner 0 has sequence array hash value -1961492242878641433
+### Client 4 request # 0 complete
+### Client 0 request # 0 complete
+##### Learner 0 learned seq num 4 for client [3, 0, ['localhost', 2348]] and message Hello World!
+##### Learner 0 has sequence array hash value [{'message': 'Hello World!', 'client': [1, 0, ['localhost', 2346]]}, {'message': 'Hello World!', 'client': [2, 0, ['localhost', 2347]]}, {'message': 'Hello World!', 'client': [4, 0, ['localhost', 2349]]}, {'message': 'Hello World!', 'client': [0, 0, ['localhost', 2345]]}, {'message': 'Hello World!', 'client': [3, 0, ['localhost', 2348]]}]
+##### Learner 0 has sequence array hash value -3089605513321130508
+### Client 3 request # 0 complete

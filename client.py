@@ -62,7 +62,7 @@ class Client:
     def send_batch_messages(self, mList):
         """method for sending batch messages, mList: list of messages """
         for m in mList:
-            self.send_message(self, m)
+            self.send_message(m)
 
 
     def send_request_to_all(self, m):

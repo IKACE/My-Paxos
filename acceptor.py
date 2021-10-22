@@ -5,6 +5,8 @@ import time
 import threading
 import sys
 
+from common import broadcast_msg
+
 
 class Acceptor:
     def __init__(self, replica):
@@ -33,11 +35,8 @@ class Acceptor:
             send_socket.close()
             return True
         return False
-    def send_msg(self, receiver_addr, msg):
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(receiver_addr)
-        send_socket.sendall(msg.encode('utf-8'))
-        send_socket.close()
+
+
 
     def process_proposal(self, msg):
         view = msg['view']
@@ -61,6 +60,8 @@ class Acceptor:
         new_msg['client'] = msg['client']
         new_msg['view'] = msg['view']
         new_msg['seq_num'] = msg['seq_num']
-        for receiver_addr in self.replicaList:
-            self.send_msg(receiver_addr, json.dumps(new_msg))
+
+        # broadcast_thread = threading.Thread(target=self.broadcast_msg, args=(new_msg,))
+        # broadcast_thread.start()
+        broadcast_msg(new_msg, self.replicaList)
         

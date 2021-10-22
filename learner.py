@@ -4,6 +4,7 @@ import json
 import time
 import threading
 
+from common import send_msg
 
 
 class Learner:
@@ -19,14 +20,8 @@ class Learner:
         self.accept_record = {}
         self.learner_sequence = []
 
-    def send_msg(self, receiver_addr, msg):
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(receiver_addr)
-        send_socket.sendall(msg.encode('utf-8'))
-        send_socket.close()
-
     def process_accept(self, msg):
-        print("# Learner {} with record {}".format(self.replicaID, self.accept_record))
+        # print("# Learner {} with record {}".format(self.replicaID, self.accept_record))
         seq_num = msg['seq_num']
         replicaID = msg['replicaID']
         key = (msg['message'], msg['client'][0], msg['client'][1], msg['client'][2][0], msg['client'][2][1])
@@ -43,7 +38,9 @@ class Learner:
                     'message': msg['message'],
                     'client': msg['client']
                 }
-                print("# Learner {} learned seq num {}".format(self.replicaID, seq_num))
+                print("##### Learner {} learned seq num {} for client {} and message {}".format(self.replicaID, seq_num, msg['client'], msg['message']))
+                print("##### Learner {} has sequence array hash value {}".format(self.replicaID, self.learner_sequence))
+                print("##### Learner {} has sequence array hash value {}".format(self.replicaID, hash(str(self.learner_sequence))))
                 if self.replicaID == self.view[0] and self.elected[0]:
                     new_msg = {
                         'type': 'RequestComplete',
@@ -51,6 +48,6 @@ class Learner:
                         'client': msg['client']
                     }
                     
-                    self.send_msg((msg['client'][2][0], msg['client'][2][1]), json.dumps(new_msg))
+                    send_msg((msg['client'][2][0], msg['client'][2][1]), json.dumps(new_msg))
 
     

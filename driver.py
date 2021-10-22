@@ -41,9 +41,15 @@ def main():
     # each client know all replicas
     client_process_list = []
     sleep(10)
-    for client_id in range(1):
-        p = Process(target=send_single_message, args=(replicaList, 0, 0, 'localhost', 2345))
+    # concurrent client test case
+    for client_id in range(5):
+        p = Process(target=send_single_message, args=(replicaList, client_id, 0, 'localhost', (2345+client_id)))
         client_process_list.append(p)
+
+    # single client multiple request test case
+    # for client_id in range(1):
+    #     p = Process(target=send_batch_message, args=(replicaList, client_id, 0, 'localhost', (2345+client_id)))
+    #     client_process_list.append(p)
 
     # start all client processes in the list
     for client_process in client_process_list:
@@ -65,6 +71,11 @@ def create_replica(f, replicaList, replicaID, view):
 def send_single_message(replicaList, clientID, view, IP, port):
     client = Client(replicaList, clientID, view, IP, port)
     client.send_message("Hello World!")
+
+def send_batch_message(replicaList, clientID, view, IP, port):
+    client = Client(replicaList, clientID, view, IP, port)
+    message_list = ['Hello 0', 'Hello 1', 'Hello 2', 'Hello 3']
+    client.send_batch_messages(message_list)
 
 
 if __name__ == "__main__":

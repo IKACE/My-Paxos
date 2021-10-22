@@ -7,7 +7,7 @@ import sys
 from proposer import Proposer
 from learner import Learner
 from acceptor import Acceptor
-
+from common import send_msg
 
 
 class Replica:
@@ -29,9 +29,9 @@ class Replica:
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
-        self.listen_socket.listen(5)
+        self.listen_socket.listen(100)
         # assume timeout 1, less than client timeout time
-        self.listen_socket.settimeout(5)
+        # self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
         self.listen_thread.start()
 
@@ -86,12 +86,6 @@ class Replica:
         while self.readyCount != 2*self.f+1:
             time.sleep(1)
 
-    def send_msg(self, receiver_addr, msg):
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(receiver_addr)
-        send_socket.sendall(msg.encode('utf-8'))
-        send_socket.close()
-
 
     def view_change(self, client_msg):
         self.view[0] += 1 
@@ -99,7 +93,7 @@ class Replica:
         msg['type'] = 'YouAreLeader'
         msg['replicaID'] = self.replicaID
         msg['appendix'] = client_msg
-        self.send_msg(self.replicaList[self.view[0]], json.dumps(msg))
+        send_msg(self.replicaList[self.view_index()], json.dumps(msg))
 
     def view_index(self):
         return self.view[0] % self.num_replica
@@ -113,7 +107,7 @@ class Replica:
         while True:
 
             # avoid busy waiting
-            time.sleep(1)
+            time.sleep(0.2)
             try:
                 incoming_socket, _ = self.listen_socket.accept()
             except socket.timeout:
@@ -146,7 +140,7 @@ class Replica:
                 if self.is_leader():
                     self.proposer.process_client_request(msg)
                 else: # if replica is not curr view, forward to curr view
-                    self.send_msg(self.replicaList[self.view_index()], json.dumps(msg))
+                    send_msg(self.replicaList[self.view_index()], json.dumps(msg))
             elif msg['type'] == 'ClientBroadcastRequest':
                 # check if request has been processed
                 # view change

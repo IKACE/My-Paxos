@@ -5,6 +5,8 @@ import time
 import threading
 import sys
 
+from common import broadcast_msg
+
 
 
 class Proposer:
@@ -55,14 +57,6 @@ class Proposer:
     def view_index(self):
         return self.view[0] % self.num_replica
 
-
-
-    def send_msg(self, receiver_addr, msg):
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(receiver_addr)
-        send_socket.sendall(msg.encode('utf-8'))
-        send_socket.close()
-
     def process_client_request(self, msg):
         new_msg = {}
         new_msg['type'] = 'Proposal'
@@ -70,8 +64,17 @@ class Proposer:
         new_msg['client'] = [msg['clientID'], msg['clientSeq'], msg['clientAddr']]
         new_msg['seq_num'] = len(self.pa_sequence)
         new_msg['view'] = self.view[0]
-        for receiver_addr in self.replicaList:
-            self.send_msg(receiver_addr, json.dumps(new_msg))
+        self.pa_sequence.append({
+                'client': new_msg['client'],
+                'message': new_msg['message'],
+                'view': new_msg['view']
+        })
+        print("# Proposer {} proposed seq_num {} for client {} and message {}".format(self.replicaID, new_msg['seq_num'], new_msg['client'], new_msg['message']))
+        # for receiver_addr in self.replicaList:
+        #     self.send_msg(receiver_addr, json.dumps(new_msg))
+        # broadcast_thread = threading.Thread(target=self.broadcast_msg, args=(new_msg,))
+        # broadcast_thread.start()
+        broadcast_msg(new_msg, self.replicaList)
 
     # def warm_up(self):
     #     self.readyCount += 1
