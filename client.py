@@ -5,6 +5,8 @@ import time
 import threading
 
 class Client:
+    REQUEST_TIMEOUT = 20
+
     def __init__(self, replicaList, clientID, view, IP, port):
         """INPUT: replicaList: a list of tuple containing IP and port for replica, 
         clientID: unique identifier for client, view: leader number, 
@@ -41,7 +43,11 @@ class Client:
         send_socket.close()
         self.finished = False
         # callback ?
+        time_sent = time.time()
         while self.finished == False:
+            if time.time() - time_sent >= REQUEST_TIMEOUT:
+                self.send_request_to_all(m)
+                time_sent = time.time()
             # avoid busy waiting
             time.sleep(1)
             continue
@@ -52,6 +58,21 @@ class Client:
         """method for sending batch messages, mList: list of messages """
         for m in mList:
             self.send_message(self, m)
+
+
+    def send_request_to_all(self, m):
+        msg = {}
+        msg['type'] = 'ClientBroadcastRequest'
+        msg['message'] = msg
+        msg['clientID'] = self.clientID
+        msg['clientSeq'] = self.seq
+        msg['clientAddr'] = self.addr
+        for idx, replicaAddr in enumerate(self.replicaList):
+            send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            send_socket.connect(replicaAddr)
+            send_socket.sendall(msg.encode('utf-8'))
+            send_socket.close()
+
 
     def listen(self):
         while True:

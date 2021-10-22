@@ -18,6 +18,7 @@ class Replica:
         sys.stdout.flush()
         self.f = f
         self.replicaList = replicaList
+        self.num_replica = len(replicaList)
         self.replicaID = replicaID
         self.view = view
         self.addr = (replicaList[replicaID][0], replicaList[replicaID][1])
@@ -71,7 +72,22 @@ class Replica:
         # time.sleep(1)
         while self.readyCount != 2*self.f+1:
             time.sleep(1)
-        
+
+    def send_msg(self, receiver_addr, msg):
+        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        send_socket.connect(receiver_addr)
+        send_socket.sendall(msg.encode('utf-8'))
+        send_socket.close()
+
+
+    def view_change(self, client_msg):
+        new_view = (self.view + 1) % self.num_replica
+        msg = {}
+        msg['type'] = 'YouAreLeader'
+        msg['replicaID'] = self.replicaID
+        msg['appendix'] = client_msg
+        self.send_msg(self.replicaList[new_view], json.dumps(msg))
+
 
     def listen(self):
         while True:
@@ -100,11 +116,22 @@ class Replica:
                 continue
             if msg['type'] == 'IAmLeader':
                 self.acceptor.change_leader(msg)
-            if msg['type'] == 'YouAreLeader':
+            elif msg['type'] == 'YouAreLeader':
                 self.proposer.add_vote()
-            if msg['type'] == 'Ready':
+            elif msg['type'] == 'Ready':
                 print("# Replica {} received ready up message from {}".format(self.replicaID, msg['replicaID'])) 
                 self.readyCount += 1
-            if msg['type'] == 'ClientRequest':
+            elif msg['type'] == 'ClientRequest':
                 if self.proposer.is_elected():
-                    self.proposer.propose(msg)
+                    self.proposer.process_client_request(msg)
+                else: # if replica is not curr view, forward to curr view
+                    self.send_msg(self.replicaList[self.view], json.dumps(msg))
+            elif msg['type'] == 'ClientBroadcastRequest':
+                # view change
+                self.view_change(msg)
+
+
+
+
+
+

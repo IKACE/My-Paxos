@@ -19,6 +19,7 @@ class Proposer:
         self.acceptor = acceptor
 
         self.elected = False
+        self.clients = {}
     
     def election(self):
         """start election protocol, leader sends IAmLeader message, wait to collect more than f votes"""
@@ -52,6 +53,12 @@ class Proposer:
     def propose(self, msg):
         chatLog = self.acceptor.read_chatLog()
 
+    def process_client_request(self, msg):
+        m = msg['message']
+        client_id = msg['clientID']
+        client_seq = msg['clientSeq']
+        client_addr = msg['clientAddr']
+        if 
 
     # def warm_up(self):
     #     self.readyCount += 1
