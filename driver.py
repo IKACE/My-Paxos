@@ -1,6 +1,7 @@
 import argparse
 from time import time, sleep
 from multiprocessing import Process
+from client import Client
 from replica import Replica
 
 DEFAULT_NUM_CLIENT = 20
@@ -38,18 +39,19 @@ def main():
     # create list of client processes
     # need to write run_client (args to be modified)
     # each client know all replicas
-    # client_process_list = []
-    # for client_id in range(DEFAULT_NUM_CLIENT):
-    #     p = Process(target=run_client, args=(client_id, total_num_replica, f, port_numbers, "127.0.0.1"))
-    #     client_process_list.append(p)
+    client_process_list = []
+    sleep(10)
+    for client_id in range(1):
+        p = Process(target=send_single_message, args=(replicaList, 0, 0, 'localhost', 2345))
+        client_process_list.append(p)
 
-    # # start all client processes in the list
-    # for client_process in client_process_list:
-    #     client_process.start()
+    # start all client processes in the list
+    for client_process in client_process_list:
+        client_process.start()
 
-    # # all clients done
-    # for client_process in client_process_list:
-    #     client_process.join()
+    # all clients done
+    for client_process in client_process_list:
+        client_process.join()
 
     # all replica done
     for replica_process in replica_process_list:
@@ -59,6 +61,11 @@ def main():
     print("All processes finished")
 def create_replica(f, replicaList, replicaID, view):
     replica = Replica(f, replicaList, replicaID, view)
+
+def send_single_message(replicaList, clientID, view, IP, port):
+    client = Client(replicaList, clientID, view, IP, port)
+    client.send_message("Hello World!")
+
 
 if __name__ == "__main__":
     main()

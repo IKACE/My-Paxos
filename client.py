@@ -4,8 +4,10 @@ import json
 import time
 import threading
 
+REQUEST_TIMEOUT = 60
+
 class Client:
-    REQUEST_TIMEOUT = 20
+    
 
     def __init__(self, replicaList, clientID, view, IP, port):
         """INPUT: replicaList: a list of tuple containing IP and port for replica, 
@@ -24,7 +26,10 @@ class Client:
         self.listen_socket.listen(5)
         # assume timeout 5, timeout for client should be longer than in replica
         self.listen_socket.settimeout(5)
-        self.listen_thread = threading.Thread(target=self.listen())
+        self.listen_thread = threading.Thread(target=self.listen, args=())
+        self.listen_thread.start()
+
+        # self.listen_thread.join()
 
     def send_message(self, m):
         """method for sending a single message, m: string"""
@@ -37,7 +42,7 @@ class Client:
         msg['clientAddr'] = self.addr
         # prepare to send message
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(self.replicaList[self.view][0], self.replicaList[self.view][1])
+        send_socket.connect(self.replicaList[self.view])
         msg = json.dumps(msg)
         send_socket.sendall(msg.encode('utf-8'))
         send_socket.close()
@@ -63,10 +68,11 @@ class Client:
     def send_request_to_all(self, m):
         msg = {}
         msg['type'] = 'ClientBroadcastRequest'
-        msg['message'] = msg
+        msg['message'] = m
         msg['clientID'] = self.clientID
         msg['clientSeq'] = self.seq
         msg['clientAddr'] = self.addr
+        msg = json.dumps(msg)
         for idx, replicaAddr in enumerate(self.replicaList):
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             send_socket.connect(replicaAddr)

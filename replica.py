@@ -8,7 +8,7 @@ from proposer import Proposer
 from learner import Learner
 from acceptor import Acceptor
 
-MAXIMUM_LOG_SIZE = 10
+
 
 class Replica:
     def __init__(self, f, replicaList, replicaID, view):
@@ -20,22 +20,35 @@ class Replica:
         self.replicaList = replicaList
         self.num_replica = len(replicaList)
         self.replicaID = replicaID
-        self.view = view
+
+        # mutable 
+        self.view = [view]
+        self.elected = [False]
+
         self.addr = (replicaList[replicaID][0], replicaList[replicaID][1])
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
-        self.listen_socket.listen(20)
+        self.listen_socket.listen(5)
         # assume timeout 1, less than client timeout time
-        self.listen_socket.settimeout(1)
+        self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
         self.listen_thread.start()
+
+        # a array of proposed values shared by proposer and acceptor
+        self.pa_sequence = []
+
+        # record of clients requests
+        self.client_record = {}
+
 
         self.acceptor = Acceptor(self)
         self.learner = Learner(self)
         self.proposer = Proposer(self, self.acceptor)
 
         self.readyCount = 1
+
+
         # make sure we have all/>=f+1? processes then proceed
         self.warm_up()
         print("# Replica {} is warmed up and ready to proceed".format(self.replicaID))
@@ -81,13 +94,20 @@ class Replica:
 
 
     def view_change(self, client_msg):
-        new_view = (self.view + 1) % self.num_replica
+        self.view[0] += 1 
         msg = {}
         msg['type'] = 'YouAreLeader'
         msg['replicaID'] = self.replicaID
         msg['appendix'] = client_msg
-        self.send_msg(self.replicaList[new_view], json.dumps(msg))
+        self.send_msg(self.replicaList[self.view[0]], json.dumps(msg))
 
+    def view_index(self):
+        return self.view[0] % self.num_replica
+
+    def is_leader(self):
+        if self.replicaID == self.view_index() and self.elected[0]:
+            return True
+        return False
 
     def listen(self):
         while True:
@@ -122,14 +142,19 @@ class Replica:
                 print("# Replica {} received ready up message from {}".format(self.replicaID, msg['replicaID'])) 
                 self.readyCount += 1
             elif msg['type'] == 'ClientRequest':
-                if self.proposer.is_elected():
+                # check if request has been processed
+                if self.is_leader():
                     self.proposer.process_client_request(msg)
                 else: # if replica is not curr view, forward to curr view
-                    self.send_msg(self.replicaList[self.view], json.dumps(msg))
+                    self.send_msg(self.replicaList[self.view_index()], json.dumps(msg))
             elif msg['type'] == 'ClientBroadcastRequest':
+                # check if request has been processed
                 # view change
                 self.view_change(msg)
-
+            elif msg['type'] == 'Proposal':
+                self.acceptor.process_proposal(msg)
+            elif msg['type'] == 'Accept':
+                self.learner.process_accept(msg)
 
 
 
