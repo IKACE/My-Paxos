@@ -20,14 +20,14 @@ def main():
     total_num_replica = f * 2 + 1
     skip_slot = args.skip
     message_loss = args.meslos
-    replicaList = [('localhost',(x + 8000)) for x in range(total_num_replica)]
+    replica_list = [('localhost',(x + 8000)) for x in range(total_num_replica)]
 
     # create list of replica processes
     # need to write run_replica (args to be modified)
     replica_process_list = []
     if not skip_slot and not message_loss:
         for replica_id in range(total_num_replica):
-            p = Process(target=create_replica, args=(f, replicaList, replica_id, 0,))
+            p = Process(target=create_replica, args=(f, replica_list, replica_id, 0,))
             replica_process_list.append(p)
 
     # need to handle skip_slot and message_loss here
@@ -43,12 +43,12 @@ def main():
     sleep(10)
     # concurrent client test case
     for client_id in range(5):
-        p = Process(target=send_single_message, args=(replicaList, client_id, 0, 'localhost', (2345+client_id)))
+        p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
         client_process_list.append(p)
 
     # single client multiple request test case
     # for client_id in range(1):
-    #     p = Process(target=send_batch_message, args=(replicaList, client_id, 0, 'localhost', (2345+client_id)))
+    #     p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
     #     client_process_list.append(p)
 
     # start all client processes in the list
@@ -65,15 +65,15 @@ def main():
 
     # all done
     print("All processes finished")
-def create_replica(f, replicaList, replicaID, view):
-    replica = Replica(f, replicaList, replicaID, view)
+def create_replica(f, replica_list, replica_id, view):
+    replica = Replica(f, replica_list, replica_id, view)
 
-def send_single_message(replicaList, clientID, view, IP, port):
-    client = Client(replicaList, clientID, view, IP, port)
+def send_single_message(replica_list, client_id, view, IP, port):
+    client = Client(replica_list, client_id, view, IP, port)
     client.send_message("Hello World!")
 
-def send_batch_message(replicaList, clientID, view, IP, port):
-    client = Client(replicaList, clientID, view, IP, port)
+def send_batch_message(replica_list, client_id, view, IP, port):
+    client = Client(replica_list, client_id, view, IP, port)
     message_list = ['Hello 0', 'Hello 1', 'Hello 2', 'Hello 3']
     client.send_batch_messages(message_list)
 

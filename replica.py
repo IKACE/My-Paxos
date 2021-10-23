@@ -11,21 +11,21 @@ from common import send_msg
 
 
 class Replica:
-    def __init__(self, f, replicaList, replicaID, view):
+    def __init__(self, f, replica_list, replica_id, view):
         """init replica
-         replicaList: ip and port tuples for each replica"""
-        print("# Replica {} initializing".format(replicaID))
+         replica_list: ip and port tuples for each replica"""
+        print("# Replica {} initializing".format(replica_id))
         sys.stdout.flush()
         self.f = f
-        self.replicaList = replicaList
-        self.num_replica = len(replicaList)
-        self.replicaID = replicaID
+        self.replica_list = replica_list
+        self.num_replica = len(replica_list)
+        self.replica_id = replica_id
 
         # mutable 
         self.view = [view]
         self.elected = [False]
 
-        self.addr = (replicaList[replicaID][0], replicaList[replicaID][1])
+        self.addr = (replica_list[replica_id][0], replica_list[replica_id][1])
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
@@ -41,6 +41,8 @@ class Replica:
         # record of clients requests
         self.client_record = {}
 
+        # a record of acceptor response during election
+        self.acceptor_response = {}
 
         self.acceptor = Acceptor(self)
         self.learner = Learner(self)
@@ -51,24 +53,24 @@ class Replica:
 
         # make sure we have all/>=f+1? processes then proceed
         self.warm_up()
-        print("# Replica {} is warmed up and ready to proceed".format(self.replicaID))
+        print("# Replica {} is warmed up and ready to proceed".format(self.replica_id))
   
         #if i am the leader
-        if view == replicaID:
+        if view == replica_id:
             self.proposer.election()
         
         self.listen_thread.join()
 
     # send warm-up message to leader, be ready for election
     def warm_up(self):
-        # print("# Replica {} broadcasting ready up message".format(self.replicaID))
+        # print("# Replica {} broadcasting ready up message".format(self.replica_id))
         # sys.stdout.flush()
         msg = {}
         msg['type'] = 'Ready'
-        msg['replicaID'] = self.replicaID
+        msg['replica_id'] = self.replica_id
         msg = json.dumps(msg)
-        for idx, replicaAddr in enumerate(self.replicaList):
-            if idx == self.replicaID:
+        for idx, replicaAddr in enumerate(self.replica_list):
+            if idx == self.replica_id:
                 continue
             while True:
 
@@ -79,7 +81,7 @@ class Replica:
                 except socket.error:
                     continue
                 send_socket.sendall(msg.encode('utf-8'))
-                print("# Replica {} send ready up message to {} {}".format(self.replicaID, idx, replicaAddr))
+                print("# Replica {} send ready up message to {} {}".format(self.replica_id, idx, replicaAddr))
                 send_socket.close()
                 break
         # time.sleep(1)
@@ -87,19 +89,11 @@ class Replica:
             time.sleep(1)
 
 
-    def view_change(self, client_msg):
-        self.view[0] += 1 
-        msg = {}
-        msg['type'] = 'YouAreLeader'
-        msg['replicaID'] = self.replicaID
-        msg['appendix'] = client_msg
-        send_msg(self.replicaList[self.view_index()], json.dumps(msg))
-
     def view_index(self):
         return self.view[0] % self.num_replica
 
     def is_leader(self):
-        if self.replicaID == self.view_index() and self.elected[0]:
+        if self.replica_id == self.view_index() and self.elected[0]:
             return True
         return False
 
@@ -131,26 +125,24 @@ class Replica:
             if msg['type'] == 'IAmLeader':
                 self.acceptor.change_leader(msg)
             elif msg['type'] == 'YouAreLeader':
-                self.proposer.add_vote()
+                self.proposer.add_vote(msg)
             elif msg['type'] == 'Ready':
-                print("# Replica {} received ready up message from {}".format(self.replicaID, msg['replicaID'])) 
+                print("# Replica {} received ready up message from {}".format(self.replica_id, msg['replica_id'])) 
                 self.readyCount += 1
             elif msg['type'] == 'ClientRequest':
                 # check if request has been processed
                 if self.is_leader():
                     self.proposer.process_client_request(msg)
                 else: # if replica is not curr view, forward to curr view
-                    send_msg(self.replicaList[self.view_index()], json.dumps(msg))
+                    send_msg(self.replica_list[self.view_index()], json.dumps(msg))
             elif msg['type'] == 'ClientBroadcastRequest':
                 # check if request has been processed
-                # view change
-                self.view_change(msg)
+                # learner check weather this request has been processed already
+                self.learner.process_request(msg)
             elif msg['type'] == 'Proposal':
                 self.acceptor.process_proposal(msg)
             elif msg['type'] == 'Accept':
                 self.learner.process_accept(msg)
-
-
-
-
+            elif msg['type'] == 'LeaderChangeToYou':
+                self.proposer.process_view_change_request(msg)
 

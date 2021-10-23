@@ -9,13 +9,13 @@ REQUEST_TIMEOUT = 60
 class Client:
     
 
-    def __init__(self, replicaList, clientID, view, IP, port):
-        """INPUT: replicaList: a list of tuple containing IP and port for replica, 
-        clientID: unique identifier for client, view: leader number, 
+    def __init__(self, replica_list, client_id, view, IP, port):
+        """INPUT: replica_list: a list of tuple containing IP and port for replica, 
+        client_id: unique identifier for client, view: leader number, 
         IP: client IP, port: client port"""
-        print("### Client", clientID, "initializing")
-        self.replicaList = replicaList
-        self.clientID = clientID
+        print("### Client", client_id, "initializing")
+        self.replica_list = replica_list
+        self.client_id = client_id
         self.view = view
         self.addr = (IP, port)
         self.seq = 0
@@ -33,16 +33,16 @@ class Client:
 
     def send_message(self, m):
         """method for sending a single message, m: string"""
-        print("### Client", self.clientID, "sending request #", self.seq, "message", m)
+        print("### Client", self.client_id, "sending request #", self.seq, "message", m)
         msg = {}
         msg['type'] = 'ClientRequest'
         msg['message'] = m
-        msg['clientID'] = self.clientID
-        msg['clientSeq'] = self.seq
-        msg['clientAddr'] = self.addr
+        msg['client_id'] = self.client_id
+        msg['client_seq'] = self.seq
+        msg['client_addr'] = self.addr
         # prepare to send message
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(self.replicaList[self.view])
+        send_socket.connect(self.replica_list[self.view])
         msg = json.dumps(msg)
         send_socket.sendall(msg.encode('utf-8'))
         send_socket.close()
@@ -56,7 +56,7 @@ class Client:
             # avoid busy waiting
             time.sleep(1)
             continue
-        print("### Client", self.clientID, "request #", self.seq, "complete")
+        print("### Client", self.client_id, "request #", self.seq, "complete")
         self.seq += 1
 
     def send_batch_messages(self, mList):
@@ -69,11 +69,11 @@ class Client:
         msg = {}
         msg['type'] = 'ClientBroadcastRequest'
         msg['message'] = m
-        msg['clientID'] = self.clientID
-        msg['clientSeq'] = self.seq
-        msg['clientAddr'] = self.addr
+        msg['client_id'] = self.client_id
+        msg['client_seq'] = self.seq
+        msg['client_addr'] = self.addr
         msg = json.dumps(msg)
-        for idx, replicaAddr in enumerate(self.replicaList):
+        for idx, replicaAddr in enumerate(self.replica_list):
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             send_socket.connect(replicaAddr)
             send_socket.sendall(msg.encode('utf-8'))
