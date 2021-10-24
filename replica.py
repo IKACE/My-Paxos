@@ -20,6 +20,7 @@ class Replica:
         self.replica_list = replica_list
         self.num_replica = len(replica_list)
         self.replica_id = replica_id
+        self.shut_down = [False]
 
         # mutable 
         self.view = [view]
@@ -39,7 +40,10 @@ class Replica:
         self.pa_sequence = []
 
         # record of clients requests
+        # format: dic client_id -> {client_seq []]}
         self.client_record = {}
+        # list of received client address
+        self.client_addr = []
 
         # a record of acceptor response during election
         self.acceptor_response = {}
@@ -98,7 +102,7 @@ class Replica:
         return False
 
     def listen(self):
-        while True:
+        while self.shut_down[0] == False:
 
             # avoid busy waiting
             time.sleep(0.2)
@@ -107,7 +111,7 @@ class Replica:
             except socket.timeout:
                 continue
             message_chunks = []
-            while True:
+            while self.shut_down[0] == False:
                 try:
                     msg = incoming_socket.recv(4096)
                 except socket.timeout:
@@ -134,10 +138,11 @@ class Replica:
                 if self.is_leader():
                     self.proposer.process_client_request(msg)
                 else: # if replica is not curr view, forward to curr view
-                    send_msg(self.replica_list[self.view_index()], json.dumps(msg))
+                    # happen mostly when new client is in, or when new leader election result is lost due to asynchronous
+                    send_msg(self.replica_list[self.view_index()], msg)
             elif msg['type'] == 'ClientBroadcastRequest':
                 # check if request has been processed
-                # learner check weather this request has been processed already
+                # learner check whether this request has been processed already
                 self.learner.process_request(msg)
             elif msg['type'] == 'Proposal':
                 self.acceptor.process_proposal(msg)

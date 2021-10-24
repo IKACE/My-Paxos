@@ -9,7 +9,8 @@ DEFAULT_NUM_CLIENT = 20
 # TEST_TYPE = 'SINGLE CLIENT SINGLE REQ'
 # TEST_TYPE = 'SINGLE CLIENT MULTIPLE REQ'
 # TEST_TYPE = 'MULTIPLE CLIENT SINGLE REQ'
-TEST_TYPE = 'MULTIPLE CLIENT MULTIPLE REQ'
+# TEST_TYPE = 'MULTIPLE CLIENT MULTIPLE REQ'
+TEST_TYPE = 'PROPOSER 0 FAIL BEFORE PROPOSAL'
 
 def main():
     """ parse the ip and port to connect to """
@@ -48,21 +49,30 @@ def main():
     sleep(10)
 
     if TEST_TYPE == 'SINGLE CLIENT SINGLE REQ':
-            for client_id in range(1):
-                p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
-                client_process_list.append(p) 
-    elif TEST_TYPE == 'SINGLE CLIENT MULTIPLE REQ':
+        msg = "Hello World!"
         for client_id in range(1):
-            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), msg))
+            client_process_list.append(p) 
+    elif TEST_TYPE == 'SINGLE CLIENT MULTIPLE REQ':
+        message_list = ['Hello 0', 'Hello 1', 'Hello 2', 'Hello 3']
+        for client_id in range(1):
+            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), message_list))
             client_process_list.append(p)
     elif TEST_TYPE == 'MULTIPLE CLIENT SINGLE REQ':
+        msg = "Hello World!"
         for client_id in range(5):
-            p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), msg))
             client_process_list.append(p)
     elif TEST_TYPE == 'MULTIPLE CLIENT MULTIPLE REQ':
+        message_list = ['Hello 0', 'Hello 1', 'Hello 2', 'Hello 3']
         for client_id in range(3):
-            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), message_list))
             client_process_list.append(p)
+    elif TEST_TYPE == 'PROPOSER 0 FAIL BEFORE PROPOSAL':
+        msg = "PROPOSER 0 FAIL BEFORE PROPOSAL"
+        for client_id in range(3):
+            p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), msg))
+            client_process_list.append(p) 
 
     # start all client processes in the list
     for client_process in client_process_list:
@@ -81,14 +91,14 @@ def main():
 def create_replica(f, replica_list, replica_id, view):
     replica = Replica(f, replica_list, replica_id, view)
 
-def send_single_message(replica_list, client_id, view, IP, port):
+def send_single_message(replica_list, client_id, view, IP, port, msg):
     client = Client(replica_list, client_id, view, IP, port)
-    client.send_message("Hello World!")
+    client.send_message(msg)
 
-def send_batch_message(replica_list, client_id, view, IP, port):
+def send_batch_message(replica_list, client_id, view, IP, port, message_list):
     client = Client(replica_list, client_id, view, IP, port)
-    message_list = ['Hello 0', 'Hello 1', 'Hello 2', 'Hello 3']
     client.send_batch_messages(message_list)
+
 
 
 if __name__ == "__main__":

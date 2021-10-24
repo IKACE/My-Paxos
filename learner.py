@@ -16,6 +16,7 @@ class Learner:
         self.view = replica.view
         self.addr = replica.addr
         self.client_record = replica.client_record
+        self.client_addr = replica.client_addr
         self.elected = replica.elected
 
         self.accept_record = {}
@@ -45,13 +46,15 @@ class Learner:
                     'message': msg['message'],
                     'client_id': msg['client_id'],
                     'client_seq': msg['client_seq'],
-                    'client_addr': msg['client_addr']
+                    'client_addr': msg['client_addr'],
+                    'view': msg['view']
                 }
                 self.learned_sequence[seq_num] = seq_content
                 # print("# Learner {} learned seq num {} for client {} req {} and message {}".format(self.replica_id, seq_num, msg['client_id'], msg['client_seq'], msg['message']))
                 # print("# Learner {} has sequence array  value {}".format(self.replica_id, self.learned_sequence))
                 # print("# Learner {} has sequence array hash value {}".format(self.replica_id, hash(str(self.learned_sequence))))
                 # all learners reply to client
+
                 if seq_num == len(self.executed_sequence):
                     self.execute_request(seq_content)
                     # clear all buffer waitings
@@ -66,6 +69,7 @@ class Learner:
         """Execute request, add to chat log, reply back to client"""
         self.executed_sequence.append(seq_content)
         self.execution_history.append((len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq']))
+        self.update_client_record(seq_content['client_id'], seq_content['client_seq'], seq_content['client_addr'])
         print("### Learner {} EXECUTED seq num {} for client {} req {} and message {}".format(self.replica_id, len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq'], seq_content['message']))
         print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
         self.reply_to_client(seq_content)
@@ -79,22 +83,23 @@ class Learner:
             'client_id': msg['client_id'],
             'client_seq': msg['client_seq'],
             'client_addr': msg['client_addr'],
+            'view': msg['view']
         }
-        send_msg((msg['client_addr'][0], msg['client_addr'][1]), json.dumps(new_msg))
+        send_msg((msg['client_addr'][0], msg['client_addr'][1]), new_msg)
 
 
     def process_request(self, msg):
         client_id = msg['client_id']
         client_seq = msg['client_seq']
         client_addr = msg['client_addr']
-        if self.request_learned(client_id, client_seq):
-            curr_request = self.client_record[client_id][client_seq]
-            self.reply_to_client(curr_request['message'], client_id, client_seq, client_addr)
+        # if already executed, Learner asserts that reponse to client is lost due to asynchronous network
+        if self.request_executed(client_id, client_seq):
+            self.reply_to_client(msg)
         else:
             self.notify_view_change(msg)
 
 
-    def request_learned(self, client_id, client_seq):
+    def request_executed(self, client_id, client_seq):
         if client_id not in self.client_record:
             return False
         if client_seq not in self.client_record[client_id]:
@@ -102,26 +107,24 @@ class Learner:
         return True
 
 
-    def add_client_request(self, client_id, client_seq, client_addr, message, seq_num):
+    def update_client_record(self, client_id, client_seq, client_addr):
         if client_id not in self.client_record:
-            self.client_record[client_id] = {}
+            self.client_record[client_id] = []
         if client_seq not in self.client_record[client_id]:
-            self.client_record[client_id][client_seq] = {}
-        curr_request = self.client_record[client_id][client_seq]
-        curr_request['message'] = message
-        curr_request['seq_num'] = seq_num
-        curr_request['client_addr'] = client_addr
-        print("#Learner{}: client {} request {} is learned at seq {}".format(self.replica_id, client_id, client_seq, seq_num))
+            self.client_record[client_id].append(client_seq)
+        if client_addr not in self.client_addr:
+            self.client_addr.append(client_addr)
 
 
     def notify_view_change(self, client_msg):
-        new_view = self.view[0] + 1 
+        self.view[0] += 1
         msg = {}
         msg['type'] = 'LeaderChangeToYou'
         msg['replica_id'] = self.replica_id
+        # does new leader has to process client req right away?
         msg['client_msg'] = client_msg
-        msg['new_view_num'] = new_view
-        send_msg(self.replica_list[new_view % self.num_replica], json.dumps(msg))
+        msg['new_view_num'] = self.view[0]
+        send_msg(self.replica_list[self.view[0] % self.num_replica], msg)
 
 
 

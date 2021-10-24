@@ -19,6 +19,7 @@ class Acceptor:
         self.acceptor_response = replica.acceptor_response
         self.pa_sequence = replica.pa_sequence
         self.client_record = replica.client_record
+        self.client_addr = replica.client_addr
 
     def change_leader(self, msg):
         # modular?
@@ -35,7 +36,9 @@ class Acceptor:
             new_msg['replica_id'] = self.replica_id
             new_msg['view'] = new_view
             new_msg['pa_sequence'] = self.pa_sequence
-            send_msg((leader_addr[0], leader_addr[1]), json.dumps(new_msg))
+            # for new leader to send leader change notification to clients
+            new_msg['client_addr'] = self.client_addr
+            send_msg((leader_addr[0], leader_addr[1]), new_msg)
 
 
     def view_index(self):

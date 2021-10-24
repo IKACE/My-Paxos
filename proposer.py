@@ -5,7 +5,7 @@ import time
 import threading
 import sys
 
-from common import broadcast_msg
+from common import broadcast_msg, send_msg
 
 
 
@@ -17,9 +17,11 @@ class Proposer:
         self.replica_id = replica.replica_id
         self.view = replica.view
         self.addr = replica.addr
+        self.shut_down = replica.shut_down
 
         self.pa_sequence = replica.pa_sequence
         self.client_record = replica.client_record
+        self.client_addr = replica.client_addr
         self.acceptor_response = replica.acceptor_response
 
         self.readyCount = 1
@@ -27,6 +29,8 @@ class Proposer:
         self.acceptor = acceptor
 
         self.elected = replica.elected
+        self.in_election = False
+        self.pending_request = {}
 
 
     
@@ -35,29 +39,25 @@ class Proposer:
         # clear acceptor response first
         self.acceptor_response = {}
         self.elected[0] = False
+        self.in_election = True
 
         msg = {}
         msg['type'] = 'IAmLeader'
         msg['replica_id'] = self.replica_id
         msg['view'] = self.view[0]
         msg['addr'] = self.addr
-        msg = json.dumps(msg)
+
         for idx, replicaAddr in enumerate(self.replica_list):
             if idx == self.replica_id:
                 #do not send to itself
                 continue
-            send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            send_socket.connect(replicaAddr)
-            send_socket.sendall(msg.encode('utf-8'))
-            send_socket.close()
+            send_msg(replicaAddr, msg)
         # while self.voteCount < (self.f + 1):
         #     time.sleep(0.1) 
             # timeout?
 
         # print("# chatLog value {}".format(self.chatLog[0]))
-        sys.stdout.flush()
-        
-        return True
+
 
     def add_vote(self, msg):
         # need check
@@ -66,13 +66,30 @@ class Proposer:
 
         replica_id = msg['replica_id']
         pa_sequence = msg['pa_sequence']
+        acceptor_client_addr = msg['client_addr']
+        for client_id in acceptor_client_addr:
+            if client_id not in self.client_addr:
+                self.client_addr.append(client_id)
         if replica_id not in self.acceptor_response:
             self.acceptor_response[replica_id] = pa_sequence
             self.voteCount += 1
-        if len(self.acceptor_response) >= self.f + 1:
+        if self.voteCount >= self.f + 1:
             print("### Proposer {} is elected as leader".format(self.replica_id))
-            self.elected[0] = True
             self.merge_and_repropose()
+            self.notify_clients()
+            if self.pending_request != {}:
+                self.process_client_request(self.pending_request)
+                self.pending_request = {}
+            self.elected[0] = True
+            self.in_election = False
+
+    def notify_clients(self):
+        # notify clients about leader change
+        new_msg = {}
+        new_msg['type'] = 'ViewChange'
+        new_msg['view'] = self.view
+        broadcast_msg(new_msg, self.client_addr)
+
 
     def merge_and_repropose(self):
         # merge others' pa sequences into my own pa sequence
@@ -106,6 +123,16 @@ class Proposer:
         return self.view[0] % self.num_replica
 
     def process_client_request(self, msg):
+        # EMULATE DEAD PROPOSER
+        if msg['message'] == "PROPOSER 0 FAIL BEFORE PROPOSAL" and self.replica_id == 0:
+            self.shut_down[0] = True
+            return
+
+        if msg['client_addr'] not in self.client_addr:
+            self.client_addr.append(msg['client_addr'])
+
+        # check duplicates?
+            
         new_msg = {}
         new_msg['type'] = 'Proposal'
         new_msg['message'] = msg['message']
@@ -130,8 +157,20 @@ class Proposer:
 
     def process_view_change_request(self, msg):
         new_view_num = msg['new_view_num']
-        if new_view_num > self.view[0] and new_view_num % self.num_replica == self.replica_id:
+        if new_view_num % self.num_replica != self.replica_id:
+            return
+
+        if new_view_num > self.view[0]:
+            # must start a new election no matter if there is election going on
             self.view[0] == new_view_num
+            print("# Replica {} starts an proposer election".format(self.replica_id))
+            self.pending_request = msg['client_msg']
+            self.pending_request['type'] = 'ClientRequest'
+            self.election()
+        elif new_view_num == self.view[0] and self.in_election == False:
+            print("# Replica {} starts an proposer election".format(self.replica_id))
+            self.pending_request = msg['client_msg']
+            self.pending_request['type'] = 'ClientRequest'
             self.election()
 
     # def warm_up(self):

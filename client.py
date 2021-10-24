@@ -4,7 +4,8 @@ import json
 import time
 import threading
 
-REQUEST_TIMEOUT = 60
+REQUEST_TIMEOUT = 10
+from common import send_msg, broadcast_msg
 
 class Client:
     
@@ -41,22 +42,20 @@ class Client:
         msg['client_seq'] = self.seq
         msg['client_addr'] = self.addr
         # prepare to send message
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        send_socket.connect(self.replica_list[self.view])
-        msg = json.dumps(msg)
-        send_socket.sendall(msg.encode('utf-8'))
-        send_socket.close()
+        send_msg(self.replica_list[self.view], msg)
+
         self.finished = False
         # callback ?
         time_sent = time.time()
         while self.finished == False:
             if time.time() - time_sent >= REQUEST_TIMEOUT:
+                print("# Client {} broadcast request {}".format(self.client_id, self.seq))
                 self.send_request_to_all(m)
                 time_sent = time.time()
             # avoid busy waiting
             time.sleep(1)
             continue
-        print("### Client", self.client_id, "request #", self.seq, "complete")
+        print("### Client {} request {} complete".format(self.client_id, self.seq))
         self.seq += 1
 
     def send_batch_messages(self, mList):
@@ -72,12 +71,7 @@ class Client:
         msg['client_id'] = self.client_id
         msg['client_seq'] = self.seq
         msg['client_addr'] = self.addr
-        msg = json.dumps(msg)
-        for idx, replicaAddr in enumerate(self.replica_list):
-            send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            send_socket.connect(replicaAddr)
-            send_socket.sendall(msg.encode('utf-8'))
-            send_socket.close()
+        broadcast_msg(msg, self.replica_list)
 
 
     def listen(self):
@@ -108,3 +102,7 @@ class Client:
             # check seq number in case of redundant replies
             if msg['type'] == 'RequestComplete' and msg['client_seq'] == self.seq:
                 self.finished = True
+                if msg['view'] > self.view:
+                    self.view = msg['view']
+            if msg['type'] == 'ViewChange' and msg['view'] > self.view:
+                self.view = msg['view']
