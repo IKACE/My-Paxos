@@ -6,6 +6,11 @@ from replica import Replica
 
 DEFAULT_NUM_CLIENT = 20
 
+# TEST_TYPE = 'SINGLE CLIENT SINGLE REQ'
+# TEST_TYPE = 'SINGLE CLIENT MULTIPLE REQ'
+# TEST_TYPE = 'MULTIPLE CLIENT SINGLE REQ'
+TEST_TYPE = 'MULTIPLE CLIENT MULTIPLE REQ'
+
 def main():
     """ parse the ip and port to connect to """
     parser = argparse.ArgumentParser()
@@ -41,15 +46,23 @@ def main():
     # each client know all replicas
     client_process_list = []
     sleep(10)
-    # concurrent client test case
-    for client_id in range(5):
-        p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
-        client_process_list.append(p)
 
-    # single client multiple request test case
-    # for client_id in range(1):
-    #     p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
-    #     client_process_list.append(p)
+    if TEST_TYPE == 'SINGLE CLIENT SINGLE REQ':
+            for client_id in range(1):
+                p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+                client_process_list.append(p) 
+    elif TEST_TYPE == 'SINGLE CLIENT MULTIPLE REQ':
+        for client_id in range(1):
+            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            client_process_list.append(p)
+    elif TEST_TYPE == 'MULTIPLE CLIENT SINGLE REQ':
+        for client_id in range(5):
+            p = Process(target=send_single_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            client_process_list.append(p)
+    elif TEST_TYPE == 'MULTIPLE CLIENT MULTIPLE REQ':
+        for client_id in range(3):
+            p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id)))
+            client_process_list.append(p)
 
     # start all client processes in the list
     for client_process in client_process_list:

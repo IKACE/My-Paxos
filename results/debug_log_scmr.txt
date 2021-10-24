@@ -1,0 +1,70 @@
+# Replica 0 initializing
+# Replica 1 initializing
+# Replica 2 initializing
+# Replica 0 send ready up message to 1 ('localhost', 8001)
+# Replica 1 send ready up message to 0 ('localhost', 8000)
+# Replica 0 received ready up message from 1
+# Replica 1 received ready up message from 0
+# Replica 2 send ready up message to 0 ('localhost', 8000)
+# Replica 0 received ready up message from 2
+# Replica 0 send ready up message to 2 ('localhost', 8002)
+# Replica 1 send ready up message to 2 ('localhost', 8002)
+# Replica 0 is warmed up and ready to proceed
+# Replica 2 received ready up message from 0
+# Replica 2 send ready up message to 1 ('localhost', 8001)
+# Replica 1 received ready up message from 2
+# Replica 2 received ready up message from 1
+# Acceptor 1 accepts 0 as new leader
+# Acceptor 2 accepts 0 as new leader
+### Proposer 0 is elected as leader
+# Replica 2 is warmed up and ready to proceed
+# Replica 1 is warmed up and ready to proceed
+### Client 0 initializing
+### Client 0 sending request # 0 message Hello 0
+# Proposer 0 proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Learner 1 learned seq num 0 for client 0 req 0 and message Hello 0
+# Learner 2 learned seq num 0 for client 0 req 0 and message Hello 0
+# Learner 2 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}]
+# Learner 1 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}]
+##### Learner 1 EXECUTED seq num 0 for client 0 req 0 and message Hello 0
+##### Learner 2 EXECUTED seq num 0 for client 0 req 0 and message Hello 0
+# Learner 0 learned seq num 0 for client 0 req 0 and message Hello 0
+# Learner 0 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}]
+##### Learner 0 EXECUTED seq num 0 for client 0 req 0 and message Hello 0
+### Client 0 request # 0 complete
+### Client 0 sending request # 1 message Hello 1
+# Proposer 0 proposed seq_num 1 for client 0 request 1 and message Hello 1
+# Learner 2 learned seq num 1 for client 0 req 1 and message Hello 1
+# Learner 2 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}]
+##### Learner 2 EXECUTED seq num 1 for client 0 req 1 and message Hello 1
+# Learner 1 learned seq num 1 for client 0 req 1 and message Hello 1
+# Learner 1 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}]
+##### Learner 1 EXECUTED seq num 1 for client 0 req 1 and message Hello 1
+# Learner 0 learned seq num 1 for client 0 req 1 and message Hello 1
+# Learner 0 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}]
+##### Learner 0 EXECUTED seq num 1 for client 0 req 1 and message Hello 1
+### Client 0 request # 1 complete
+### Client 0 sending request # 2 message Hello 2
+# Proposer 0 proposed seq_num 2 for client 0 request 2 and message Hello 2
+# Learner 2 learned seq num 2 for client 0 req 2 and message Hello 2
+# Learner 2 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}]
+##### Learner 2 EXECUTED seq num 2 for client 0 req 2 and message Hello 2
+# Learner 1 learned seq num 2 for client 0 req 2 and message Hello 2
+# Learner 1 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}]
+##### Learner 1 EXECUTED seq num 2 for client 0 req 2 and message Hello 2
+# Learner 0 learned seq num 2 for client 0 req 2 and message Hello 2
+# Learner 0 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}]
+##### Learner 0 EXECUTED seq num 2 for client 0 req 2 and message Hello 2
+### Client 0 request # 2 complete
+### Client 0 sending request # 3 message Hello 3
+# Proposer 0 proposed seq_num 3 for client 0 request 3 and message Hello 3
+# Learner 2 learned seq num 3 for client 0 req 3 and message Hello 3
+# Learner 2 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 3', 'client_id': 0, 'client_seq': 3, 'client_addr': ['localhost', 2345]}]
+##### Learner 2 EXECUTED seq num 3 for client 0 req 3 and message Hello 3
+# Learner 1 learned seq num 3 for client 0 req 3 and message Hello 3
+# Learner 1 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 3', 'client_id': 0, 'client_seq': 3, 'client_addr': ['localhost', 2345]}]
+##### Learner 1 EXECUTED seq num 3 for client 0 req 3 and message Hello 3
+# Learner 0 learned seq num 3 for client 0 req 3 and message Hello 3
+# Learner 0 has sequence array  value [{'message': 'Hello 0', 'client_id': 0, 'client_seq': 0, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 1', 'client_id': 0, 'client_seq': 1, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 2', 'client_id': 0, 'client_seq': 2, 'client_addr': ['localhost', 2345]}, {'message': 'Hello 3', 'client_id': 0, 'client_seq': 3, 'client_addr': ['localhost', 2345]}]
+##### Learner 0 EXECUTED seq num 3 for client 0 req 3 and message Hello 3
+### Client 0 request # 3 complete

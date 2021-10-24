@@ -23,7 +23,7 @@ class Client:
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
-        self.listen_socket.listen(5)
+        self.listen_socket.listen(20)
         # assume timeout 5, timeout for client should be longer than in replica
         self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
@@ -105,5 +105,6 @@ class Client:
                 msg = json.loads(message_str)
             except json.JSONDecodeError:
                 continue
-            if msg['type'] == 'RequestComplete':
+            # check seq number in case of redundant replies
+            if msg['type'] == 'RequestComplete' and msg['client_seq'] == self.seq:
                 self.finished = True

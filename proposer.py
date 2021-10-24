@@ -34,6 +34,7 @@ class Proposer:
         """start election protocol, leader sends IAmLeader message, wait to collect more than f votes"""
         # clear acceptor response first
         self.acceptor_response = {}
+        self.elected[0] = False
 
         msg = {}
         msg['type'] = 'IAmLeader'
@@ -49,40 +50,57 @@ class Proposer:
             send_socket.connect(replicaAddr)
             send_socket.sendall(msg.encode('utf-8'))
             send_socket.close()
-        while self.voteCount < (self.f + 1):
-            time.sleep(0.1) 
+        # while self.voteCount < (self.f + 1):
+        #     time.sleep(0.1) 
             # timeout?
-        print("### Proposer {} is elected as leader".format(self.replica_id))
+
         # print("# chatLog value {}".format(self.chatLog[0]))
         sys.stdout.flush()
-        self.elected[0] = True
+        
         return True
 
     def add_vote(self, msg):
         # need check
-        if len(self.acceptor_response) >= f + 1:
+        if self.elected[0] == True:
             return
 
         replica_id = msg['replica_id']
-        accepted_vals = msg['accepted_vals']
-        if replica_id not in acceptor_response:
-            self.acceptor_response[replica_id] = accepted_vals
+        pa_sequence = msg['pa_sequence']
+        if replica_id not in self.acceptor_response:
+            self.acceptor_response[replica_id] = pa_sequence
             self.voteCount += 1
-        if len(self.acceptor_response) >= f + 1:
-            self.start_propose()
+        if len(self.acceptor_response) >= self.f + 1:
+            print("### Proposer {} is elected as leader".format(self.replica_id))
+            self.elected[0] = True
+            self.merge_and_repropose()
 
-    def start_propose(self):
-        my_view = self.view[0]
-        for replica_id in accepted_vals:
-            replica_sequence = accepted_vals[replica_id]
-            for seq_num, curr_seq in enumerate(replica_sequence):
-                if curr_seq['view'] > self.pa_sequence[seq_num]['view']:
-                    curr_seq['view'] = my_view
-                    self.pa_sequence[seq_num] = curr_seq
-
-        # 还没propose
-        # gap 又要加空格，要不要换成dict
-
+    def merge_and_repropose(self):
+        # merge others' pa sequences into my own pa sequence
+        for replica_id in self.acceptor_response:
+            replica_sequence = self.acceptor_response[replica_id]
+            if len(self.pa_sequence) <= len(replica_sequence):
+                for idx in range(len(self.pa_sequence)):
+                    if self.pa_sequence[idx]['view'] < replica_sequence[idx]['view']:
+                        self.pa_sequence[idx] = replica_sequence[idx]
+                for idx in range(len(self.pa_sequence), len(replica_sequence)):
+                    self.pa_sequence.append(replica_sequence[idx])
+            else:
+                for idx in range(len(replica_sequence)):
+                    if self.pa_sequence[idx]['view'] < replica_sequence[idx]['view']:
+                        self.pa_sequence[idx] = replica_sequence[idx]
+        
+        # start repropose
+        for idx, request in enumerate(self.pa_sequence):
+            new_msg = {}
+            new_msg['type'] = 'Proposal'
+            new_msg['message'] = request['message']
+            new_msg['client_id'] = request['client_id']
+            new_msg['client_seq'] = request['client_seq']
+            new_msg['client_addr'] = request['client_addr']
+            new_msg['seq_num'] = idx
+            new_msg['view'] = self.view[0]       
+            print("# Proposer {} RE-proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
+            broadcast_msg(new_msg, self.replica_list)
 
     def view_index(self):
         return self.view[0] % self.num_replica

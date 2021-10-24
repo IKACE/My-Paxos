@@ -5,7 +5,7 @@ import time
 import threading
 import sys
 
-from common import broadcast_msg
+from common import broadcast_msg, send_msg
 
 
 class Acceptor:
@@ -15,7 +15,8 @@ class Acceptor:
         self.replica_id = replica.replica_id
         self.view = replica.view
         self.addr = replica.addr
-
+        self.elected = replica.elected
+        self.acceptor_response = replica.acceptor_response
         self.pa_sequence = replica.pa_sequence
         self.client_record = replica.client_record
 
@@ -26,7 +27,6 @@ class Acceptor:
 
         if self.view[0] <= new_view:
             print("# Acceptor {} accepts {} as new leader".format(self.replica_id, msg['view']))
-            sys.stdout.flush()
             self.view[0] = new_view
 
             # need check
@@ -34,14 +34,12 @@ class Acceptor:
             new_msg['type'] = 'YouAreLeader'
             new_msg['replica_id'] = self.replica_id
             new_msg['view'] = new_view
-            msg['accepted_vals'] = self.pa_sequence
-            send_msg(leader_addr, json.dumps(new_msg))
-
-        # what is this for
-            return True
-        return False
+            new_msg['pa_sequence'] = self.pa_sequence
+            send_msg((leader_addr[0], leader_addr[1]), json.dumps(new_msg))
 
 
+    def view_index(self):
+        return self.view[0] % self.num_replica
 
     def process_proposal(self, msg):
         view = msg['view']
@@ -49,6 +47,11 @@ class Acceptor:
             return
         elif view > self.view[0]:
             self.view[0] = view
+            # if I found out leader is not me
+            if self.view_index() != self.replica_id:
+                self.elected[0] = False
+                self.acceptor_response = {}
+
         seq_num = msg['seq_num']
         while seq_num >= len(self.pa_sequence):
             self.pa_sequence.append({})

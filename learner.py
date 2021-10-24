@@ -19,7 +19,12 @@ class Learner:
         self.elected = replica.elected
 
         self.accept_record = {}
-        self.learner_sequence = []
+        # learned sequence as a buffer
+        self.learned_sequence = []
+        # this is the real chat log, must be executed in exact monotonic increasing order, starting from 0
+        self.executed_sequence = []
+        # a simpler array of execution history for debugging
+        self.execution_history = []
 
 
     def process_accept(self, msg):
@@ -34,22 +39,40 @@ class Learner:
         if replica_id not in self.accept_record[seq_num][key]:
             self.accept_record[seq_num][key].add(replica_id)
             if len(self.accept_record[seq_num][key]) == self.f+1:
-                while seq_num >= len(self.learner_sequence):
-                    self.learner_sequence.append({})
-                self.learner_sequence[seq_num] = {
+                while seq_num >= len(self.learned_sequence):
+                    self.learned_sequence.append({})
+                seq_content = {
                     'message': msg['message'],
                     'client_id': msg['client_id'],
                     'client_seq': msg['client_seq'],
                     'client_addr': msg['client_addr']
                 }
-                print("##### Learner {} learned seq num {} for client {} req {} and message {}".format(self.replica_id, seq_num, msg['client_id'], msg['client_seq'], msg['message']))
-                print("##### Learner {} has sequence array hash value {}".format(self.replica_id, self.learner_sequence))
-                print("##### Learner {} has sequence array hash value {}".format(self.replica_id, hash(str(self.learner_sequence))))
-                if self.replica_id == self.view[0] and self.elected[0]:
-                    self.reply_to_client(self, msg['message'], msg['client_id'], msg['client_seq'], msg['client_addr'])
+                self.learned_sequence[seq_num] = seq_content
+                # print("# Learner {} learned seq num {} for client {} req {} and message {}".format(self.replica_id, seq_num, msg['client_id'], msg['client_seq'], msg['message']))
+                # print("# Learner {} has sequence array  value {}".format(self.replica_id, self.learned_sequence))
+                # print("# Learner {} has sequence array hash value {}".format(self.replica_id, hash(str(self.learned_sequence))))
+                # all learners reply to client
+                if seq_num == len(self.executed_sequence):
+                    self.execute_request(seq_content)
+                    # clear all buffer waitings
+                    while len(self.executed_sequence) < len(self.learned_sequence):
+                        start_idx = len(self.executed_sequence)
+                        if self.learned_sequence[start_idx] == {}:
+                            break
+                        seq_content = self.learned_sequence[start_idx]
+                        self.execute_request(seq_content)
+
+    def execute_request(self, seq_content):
+        """Execute request, add to chat log, reply back to client"""
+        self.executed_sequence.append(seq_content)
+        self.execution_history.append((len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq']))
+        print("### Learner {} EXECUTED seq num {} for client {} req {} and message {}".format(self.replica_id, len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq'], seq_content['message']))
+        print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
+        self.reply_to_client(seq_content)
 
 
-    def reply_to_client(self, message, client_id. client_seq, client_addr):
+
+    def reply_to_client(self, msg):
         new_msg = {
             'type': 'RequestComplete',
             'message': msg['message'],
@@ -81,7 +104,7 @@ class Learner:
 
     def add_client_request(self, client_id, client_seq, client_addr, message, seq_num):
         if client_id not in self.client_record:
-            client_record[client_id] = {}
+            self.client_record[client_id] = {}
         if client_seq not in self.client_record[client_id]:
             self.client_record[client_id][client_seq] = {}
         curr_request = self.client_record[client_id][client_seq]
