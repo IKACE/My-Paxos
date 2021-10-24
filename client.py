@@ -10,7 +10,7 @@ from common import send_msg, broadcast_msg
 class Client:
     
 
-    def __init__(self, replica_list, client_id, view, IP, port):
+    def __init__(self, replica_list, client_id, view, IP, port, msg_loss):
         """INPUT: replica_list: a list of tuple containing IP and port for replica, 
         client_id: unique identifier for client, view: leader number, 
         IP: client IP, port: client port"""
@@ -21,6 +21,11 @@ class Client:
         self.addr = (IP, port)
         self.seq = 0
         self.finished = False
+
+        self.view_change = False
+
+        # test case 5
+        self.msg_loss = msg_loss
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
@@ -41,13 +46,20 @@ class Client:
         msg['client_id'] = self.client_id
         msg['client_seq'] = self.seq
         msg['client_addr'] = self.addr
+        msg['client_view'] = self.view
         # prepare to send message
-        send_msg(self.replica_list[self.view], msg)
+        send_msg(self.replica_list[self.view], msg, self.msg_loss)
 
         self.finished = False
         # callback ?
         time_sent = time.time()
         while self.finished == False:
+            if self.view_change == True:
+                self.view_change = False
+                msg['client_view'] = self.view
+                send_msg(self.replica_list[self.view], msg, self.msg_loss)
+                time_sent = time.time()
+
             if time.time() - time_sent >= REQUEST_TIMEOUT:
                 print("# Client {} broadcast request {}".format(self.client_id, self.seq))
                 self.send_request_to_all(m)
@@ -66,12 +78,13 @@ class Client:
 
     def send_request_to_all(self, m):
         msg = {}
-        msg['type'] = 'ClientBroadcastRequest'
+        msg['type'] = 'ClientRequest'
         msg['message'] = m
         msg['client_id'] = self.client_id
         msg['client_seq'] = self.seq
         msg['client_addr'] = self.addr
-        broadcast_msg(msg, self.replica_list)
+        msg['client_view'] = self.view
+        broadcast_msg(self.replica_list, msg, self.msg_loss)
 
 
     def listen(self):
@@ -104,5 +117,7 @@ class Client:
                 self.finished = True
                 if msg['view'] > self.view:
                     self.view = msg['view']
+
             if msg['type'] == 'ViewChange' and msg['view'] > self.view:
                 self.view = msg['view']
+                self.view_change = True

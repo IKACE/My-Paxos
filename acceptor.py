@@ -21,6 +21,8 @@ class Acceptor:
         self.client_record = replica.client_record
         self.client_addr = replica.client_addr
 
+        self.msg_loss = replica.msg_loss
+
     def change_leader(self, msg):
         # modular?
         new_view = msg['view']
@@ -38,7 +40,7 @@ class Acceptor:
             new_msg['pa_sequence'] = self.pa_sequence
             # for new leader to send leader change notification to clients
             new_msg['client_addr'] = self.client_addr
-            send_msg((leader_addr[0], leader_addr[1]), new_msg)
+            send_msg((leader_addr[0], leader_addr[1]), new_msg, self.msg_loss)
 
 
     def view_index(self):
@@ -76,7 +78,5 @@ class Acceptor:
         new_msg['view'] = msg['view']
         new_msg['seq_num'] = msg['seq_num']
 
-        # broadcast_thread = threading.Thread(target=self.broadcast_msg, args=(new_msg,))
-        # broadcast_thread.start()
-        broadcast_msg(new_msg, self.replica_list)
+        broadcast_msg(self.replica_list, new_msg, self.msg_loss)
         

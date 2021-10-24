@@ -11,7 +11,7 @@ from common import send_msg
 
 
 class Replica:
-    def __init__(self, f, replica_list, replica_id, view):
+    def __init__(self, f, replica_list, replica_id, view, skip_slot, msg_loss):
         """init replica
          replica_list: ip and port tuples for each replica"""
         print("# Replica {} initializing".format(replica_id))
@@ -21,6 +21,10 @@ class Replica:
         self.num_replica = len(replica_list)
         self.replica_id = replica_id
         self.shut_down = [False]
+        
+        # test case 4 & 5
+        self.skip_slot = skip_slot
+        self.msg_loss = msg_loss
 
         # mutable 
         self.view = [view]
@@ -135,15 +139,22 @@ class Replica:
                 self.readyCount += 1
             elif msg['type'] == 'ClientRequest':
                 # check if request has been processed
-                if self.is_leader():
-                    self.proposer.process_client_request(msg)
-                else: # if replica is not curr view, forward to curr view
-                    # happen mostly when new client is in, or when new leader election result is lost due to asynchronous
-                    send_msg(self.replica_list[self.view_index()], msg)
-            elif msg['type'] == 'ClientBroadcastRequest':
-                # check if request has been processed
-                # learner check whether this request has been processed already
-                self.learner.process_request(msg)
+                client_view = msg['client_view']
+                if client_view == self.view[0]:
+                    if self.is_leader():
+                        self.proposer.process_client_request(msg)
+                    else: # if replica is not curr view, forward to curr view
+                        # happen mostly when new client is in, or when new leader election result is lost due to    asynchronous
+                        self.learner.process_request(msg)
+                else:        
+                    new_msg = {}
+                    new_msg['type'] = 'ViewChange'
+                    new_msg['view'] = self.view[0]
+                    send_msg((msg['client_addr'][0], msg['client_addr'][1]), new_msg, self.msg_loss)
+            # elif msg['type'] == 'ClientBroadcastRequest':
+            #     # check if request has been processed
+            #     # learner check whether this request has been processed already
+            #     self.learner.process_request(msg)
             elif msg['type'] == 'Proposal':
                 self.acceptor.process_proposal(msg)
             elif msg['type'] == 'Accept':

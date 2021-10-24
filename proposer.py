@@ -24,6 +24,9 @@ class Proposer:
         self.client_addr = replica.client_addr
         self.acceptor_response = replica.acceptor_response
 
+        self.msg_loss = replica.msg_loss
+        self.skip_slot = replica.skip_slot
+
         self.readyCount = 1
         self.voteCount = 1
         self.acceptor = acceptor
@@ -51,7 +54,7 @@ class Proposer:
             if idx == self.replica_id:
                 #do not send to itself
                 continue
-            send_msg(replicaAddr, msg)
+            send_msg(replicaAddr, msg, self.msg_loss)
         # while self.voteCount < (self.f + 1):
         #     time.sleep(0.1) 
             # timeout?
@@ -88,7 +91,7 @@ class Proposer:
         new_msg = {}
         new_msg['type'] = 'ViewChange'
         new_msg['view'] = self.view
-        broadcast_msg(new_msg, self.client_addr)
+        broadcast_msg(self.client_addr, new_msg, self.msg_loss)
 
 
     def merge_and_repropose(self):
@@ -117,7 +120,7 @@ class Proposer:
             new_msg['seq_num'] = idx
             new_msg['view'] = self.view[0]       
             print("# Proposer {} RE-proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
-            broadcast_msg(new_msg, self.replica_list)
+            broadcast_msg(self.replica_list, new_msg, self.msg_loss)
 
     def view_index(self):
         return self.view[0] % self.num_replica
@@ -149,25 +152,25 @@ class Proposer:
                 'view': new_msg['view']
         })
         print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
-        # for receiver_addr in self.replica_list:
-        #     self.send_msg(receiver_addr, json.dumps(new_msg))
-        # broadcast_thread = threading.Thread(target=self.broadcast_msg, args=(new_msg,))
-        # broadcast_thread.start()
-        broadcast_msg(new_msg, self.replica_list)
+        
+        broadcast_msg(self.replica_list, new_msg, self.msg_loss)
+        if msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0:
+            self.shut_down[0] = True
+            return
 
     def process_view_change_request(self, msg):
         new_view_num = msg['new_view_num']
         if new_view_num % self.num_replica != self.replica_id:
             return
 
-        if new_view_num > self.view[0]:
-            # must start a new election no matter if there is election going on
-            self.view[0] == new_view_num
-            print("# Replica {} starts an proposer election".format(self.replica_id))
-            self.pending_request = msg['client_msg']
-            self.pending_request['type'] = 'ClientRequest'
-            self.election()
-        elif new_view_num == self.view[0] and self.in_election == False:
+        # if new_view_num > self.view[0]:
+        #     # must start a new election no matter if there is election going on
+        #     self.view[0] == new_view_num
+        #     print("# Replica {} starts an proposer election".format(self.replica_id))
+        #     self.pending_request = msg['client_msg']
+        #     self.pending_request['type'] = 'ClientRequest'
+        #     self.election()
+        if new_view_num == self.view[0] and self.in_election == False:
             print("# Replica {} starts an proposer election".format(self.replica_id))
             self.pending_request = msg['client_msg']
             self.pending_request['type'] = 'ClientRequest'

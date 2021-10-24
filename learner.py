@@ -19,6 +19,10 @@ class Learner:
         self.client_addr = replica.client_addr
         self.elected = replica.elected
 
+        self.msg_loss = replica.msg_loss
+
+
+        # count how many replica accepts this proposal
         self.accept_record = {}
         # learned sequence as a buffer
         self.learned_sequence = []
@@ -85,7 +89,7 @@ class Learner:
             'client_addr': msg['client_addr'],
             'view': msg['view']
         }
-        send_msg((msg['client_addr'][0], msg['client_addr'][1]), new_msg)
+        send_msg((msg['client_addr'][0], msg['client_addr'][1]), new_msg, self.msg_loss)
 
 
     def process_request(self, msg):
@@ -117,14 +121,14 @@ class Learner:
 
 
     def notify_view_change(self, client_msg):
-        self.view[0] += 1
+        new_view= self.view[0] + 1
         msg = {}
         msg['type'] = 'LeaderChangeToYou'
         msg['replica_id'] = self.replica_id
         # does new leader has to process client req right away?
         msg['client_msg'] = client_msg
-        msg['new_view_num'] = self.view[0]
-        send_msg(self.replica_list[self.view[0] % self.num_replica], msg)
+        msg['new_view_num'] = new_view
+        send_msg(self.replica_list[new_view % self.num_replica], msg, self.msg_loss)
 
 
 

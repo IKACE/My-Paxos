@@ -2,8 +2,12 @@ import socket
 import json
 import time
 import sys
+import random
 
-def send_msg(receiver_addr, msg):
+def send_msg(receiver_addr, msg, msg_loss):
+    # emulate message loss
+    if random.random() < msg_loss:
+        return
     try:
         msg = json.dumps(msg)
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -14,9 +18,9 @@ def send_msg(receiver_addr, msg):
         return
 
 
-def broadcast_msg(msg, replica_list):
+def broadcast_msg(replica_list, msg, msg_loss):
     for receiver_addr in replica_list:
-        send_msg(receiver_addr, msg)
+        send_msg(receiver_addr, msg, msg_loss)
 
 
 
