@@ -4,7 +4,7 @@ import json
 import time
 import threading
 
-REQUEST_TIMEOUT = 10
+REQUEST_TIMEOUT = 20
 from common import send_msg, broadcast_msg
 
 class Client:
@@ -31,7 +31,7 @@ class Client:
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
-        self.listen_socket.listen(20)
+        self.listen_socket.listen(10000)
         # assume timeout 5, timeout for client should be longer than in replica
         self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
@@ -67,7 +67,7 @@ class Client:
                 self.send_request_to_all(m)
                 time_sent = time.time()
             # avoid busy waiting
-            time.sleep(1)
+            time.sleep(0.1)
             continue
         print("### Client {} request {} complete".format(self.client_id, self.seq))
         self.seq += 1

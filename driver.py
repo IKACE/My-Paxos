@@ -27,11 +27,15 @@ def main():
     parser.add_argument('--f', type=int, default=2,
                         help='number of tolerated failures')
     parser.add_argument('--skip_slot', type=int, default=-1,
-                        help='test for skiping slot, input is an integer for primary to skip proposing this slot')
+                        help='test for skiping slot, input is an integer for primary to skip proposing this slot,  only work if it is the initial primary replica #0')
     parser.add_argument('--msg_loss', type=int, default=-1,
                         help='test for message loss, input is a probability in percentage for message to be lost')
     parser.add_argument('--rand_seed', type=int, default=591,
                         help='random seed')
+    parser.add_argument('--config_path', type=str, default="./configs/config.txt",
+                        help='path of configuration file each line containing one pair of ip and port') 
+    parser.add_argument('--log_dir', type=str, default="./logs",
+                        help='path of log directory to write chat log to')
     args = parser.parse_args()
     f = args.f
     total_num_replica = f * 2 + 1
@@ -41,15 +45,29 @@ def main():
     msg_loss /= 100
     random.seed(args.rand_seed)
 
-
-    replica_list = [('localhost',(x + 8000)) for x in range(total_num_replica)]
+    # read config file
+    try:
+        config_f = open(args.config_path, 'r')
+    except OSError:
+        print("Could not read configuration file, exiting")
+        return 1
+    replica_list = []
+    for line in config_f.readlines():
+        line = line.split()
+        replica_list.append((line[0], int(line[1])))
+    config_f.close()
+    if len(replica_list) != total_num_replica:
+        print("number of replicas in config file does not match parameter f, exiting")
+        return 1
+    # log directory
+    log_dir = args.log_dir
 
     # create list of replica processes
     # need to write run_replica (args to be modified)
     replica_process_list = []
 
     for replica_id in range(total_num_replica):
-        p = Process(target=create_replica, args=(f, replica_list, replica_id, 0, skip_slot, msg_loss))
+        p = Process(target=create_replica, args=(f, replica_list, replica_id, 0, skip_slot, msg_loss, log_dir))
         replica_process_list.append(p)
 
     # need to handle skip_slot and message_loss here
@@ -127,8 +145,8 @@ def main():
 
     # all done
     print("All processes finished")
-def create_replica(f, replica_list, replica_id, view, skip_slot, msg_loss):
-    replica = Replica(f, replica_list, replica_id, view, skip_slot, msg_loss)
+def create_replica(f, replica_list, replica_id, view, skip_slot, msg_loss, log_dir):
+    replica = Replica(f, replica_list, replica_id, view, skip_slot, msg_loss, log_dir)
 
 def send_single_message(replica_list, client_id, view, IP, port, msg, msg_loss, f):
     client = Client(replica_list, client_id, view, IP, port, msg_loss, f)

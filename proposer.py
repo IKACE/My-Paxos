@@ -184,34 +184,36 @@ class Proposer:
                 if self.skip_slot == len(self.pa_sequence) and self.replica_id == 0:
                     self.pa_sequence.append({})
                 seq_num = len(self.pa_sequence)
-
-
             self.proposed_record[key] = seq_num
+        else:
+            seq_num = self.proposed_record[key]
 
-            new_msg['seq_num'] = seq_num
-            new_msg['view'] = self.view[0]
-            if seq_num < len(self.pa_sequence):
-                self.pa_sequence[seq_num] = {
+        
+
+        new_msg['seq_num'] = seq_num
+        new_msg['view'] = self.view[0]
+        if seq_num < len(self.pa_sequence):
+            self.pa_sequence[seq_num] = {
                     'client_id': new_msg['client_id'],
                     'client_seq': new_msg['client_seq'],
                     'client_addr': new_msg['client_addr'],
                     'message': new_msg['message'],
                     'view': new_msg['view']
                 }
-            else:
-                self.pa_sequence.append({
-                    'client_id': new_msg['client_id'],
-                    'client_seq': new_msg['client_seq'],
-                    'client_addr': new_msg['client_addr'],
-                    'message': new_msg['message'],
-                    'view': new_msg['view']
-                })
-            print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
-            sys.stdout.flush()
-            broadcast_msg(self.replica_list, new_msg, self.msg_loss)
-            if msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0:
-                self.shut_down[0] = True
-                return
+        else:
+            self.pa_sequence.append({
+                'client_id': new_msg['client_id'],
+                'client_seq': new_msg['client_seq'],
+                'client_addr': new_msg['client_addr'],
+                'message': new_msg['message'],
+                'view': new_msg['view']
+            })
+        print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
+        sys.stdout.flush()
+        broadcast_msg(self.replica_list, new_msg, self.msg_loss)
+        if msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0:
+            self.shut_down[0] = True
+            return
 
     def process_view_change_request(self, msg):
         new_view_num = msg['new_view_num']

@@ -11,10 +11,10 @@ from common import send_msg
 
 
 class Replica:
-    def __init__(self, f, replica_list, replica_id, view, skip_slot, msg_loss):
+    def __init__(self, f, replica_list, replica_id, view, skip_slot, msg_loss, log_dir):
         """init replica
          replica_list: ip and port tuples for each replica"""
-        # print("# Replica {} initializing".format(replica_id))
+        print("# Replica {} initializing".format(replica_id))
         sys.stdout.flush()
         self.f = f
         self.replica_list = replica_list
@@ -56,6 +56,9 @@ class Replica:
         # a record of acceptor response during election
         self.acceptor_response = {}
 
+        # path of log directory
+        self.log_dir = log_dir
+
         self.acceptor = Acceptor(self)
         self.learner = Learner(self)
         self.proposer = Proposer(self, self.acceptor)
@@ -75,7 +78,7 @@ class Replica:
 
     # send warm-up message to leader, be ready for election
     def warm_up(self):
-        # print("# Replica {} broadcasting ready up message".format(self.replica_id))
+        print("# Replica {} broadcasting ready up message".format(self.replica_id))
         # sys.stdout.flush()
         msg = {}
         msg['type'] = 'Ready'
@@ -137,7 +140,8 @@ class Replica:
             if msg['type'] == 'IAmLeader':
                 self.acceptor.change_leader(msg)
             elif msg['type'] == 'YouAreLeader':
-                self.proposer.add_vote(msg)
+                if self.view[0] == msg['view']:
+                    self.proposer.add_vote(msg)
             elif msg['type'] == 'Ready':
                 # print("# Replica {} received ready up message from {}".format(self.replica_id, msg['replica_id'])) 
                 self.readyCount += 1
@@ -145,6 +149,7 @@ class Replica:
                 # check if request has been processed
                 client_view = msg['client_view']
                 if client_view == self.view[0]:
+
                     if self.is_leader():
                         self.proposer.process_client_request(msg)
                     else: # if replica is not curr view, forward to curr view

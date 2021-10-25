@@ -4,6 +4,7 @@ import json
 import time
 import threading
 import sys
+import os
 
 from common import send_msg
 
@@ -23,7 +24,12 @@ class Learner:
         self.msg_loss = replica.msg_loss
 
         # log file
-        self.log_file_path = "./results/process_logs/learner{}.txt".format(self.replica_id)
+        self.log_dir = replica.log_dir
+        if not os.path.exists(self.log_dir):
+            os.makedirs(self.log_dir)
+        self.log_file_path = os.path.join(self.log_dir, "learner{}.txt".format(self.replica_id))
+        if os.path.exists(self.log_file_path):
+            os.remove(self.log_file_path)
 
 
         # count how many replica accepts this proposal
@@ -132,7 +138,7 @@ class Learner:
 
 
     def notify_view_change(self, client_msg):
-        new_view= self.view[0] + 1
+        new_view = self.view[0] + 1
         msg = {}
         msg['type'] = 'LeaderChangeToYou'
         msg['replica_id'] = self.replica_id
