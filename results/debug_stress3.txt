@@ -1,0 +1,917 @@
+# Replica 0 is warmed up and ready to proceed
+# Acceptor 2 accepts 0 as new leader
+# Acceptor 5 accepts 0 as new leader
+# Replica 1 is warmed up and ready to proceed# Replica 4 is warmed up and ready to proceed
+
+# Replica 2 is warmed up and ready to proceed
+# Replica 3 is warmed up and ready to proceed
+# Acceptor 6 accepts 0 as new leader
+# Replica 5 is warmed up and ready to proceed
+# Replica 6 is warmed up and ready to proceed
+### Client 0 initializing
+### Client 0 sending request # 0 message Hello 0
+# Replica 1 starts an proposer election
+# Acceptor 3 accepts 1 as new leader
+# Acceptor 4 accepts 1 as new leader
+# Acceptor 5 accepts 1 as new leader
+# Acceptor 6 accepts 1 as new leader
+# Acceptor 0 accepts 1 as new leader
+### Client 1 initializing
+### Client 2 initializing
+# Client 0 broadcast request 0
+### Client 2 sending request # 0 message Hello 0
+### Proposer 1 is elected as leader
+# Proposer 1 proposed seq_num 0 for client 0 request 0 and message Hello 0
+### Client 0 request 0 complete
+### Client 1 sending request # 0 message Hello 0
+### Client 0 sending request # 1 message Hello 1
+# Client 2 broadcast request 0
+# Proposer 1 proposed seq_num 1 for client 2 request 0 and message Hello 0
+##### Learner 4 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+##### Learner 3 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+##### Learner 5 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+# Client 0 broadcast request 1
+# Proposer 1 proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Replica 2 starts an proposer election
+# Acceptor 6 accepts 2 as new leader
+# Acceptor 3 accepts 2 as new leader
+# Acceptor 4 accepts 2 as new leader
+# Acceptor 0 accepts 2 as new leader
+# Acceptor 1 accepts 2 as new leader
+# Client 1 broadcast request 0
+### Client 0 request 1 complete
+### Client 2 request 0 complete
+### Client 0 sending request # 2 message Hello 2
+### Client 2 sending request # 1 message Hello 1
+# Client 1 broadcast request 0
+# Replica 3 starts an proposer election
+# Acceptor 5 accepts 3 as new leader
+# Acceptor 6 accepts 3 as new leader
+# Client 0 broadcast request 2
+### Proposer 2 is elected as leader
+# Proposer 2 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+##### Learner 1 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+##### Learner 0 EXECUTION HISTORY SEQ NUM 2 HASH 1017 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0)]
+# Proposer 2 proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 2 proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Acceptor 2 accepts 3 as new leader
+# Client 2 broadcast request 1
+# Client 1 broadcast request 0
+# Client 0 broadcast request 2
+# Replica 4 starts an proposer election
+# Acceptor 1 accepts 4 as new leader# Acceptor 0 accepts 4 as new leader
+
+# Acceptor 5 accepts 4 as new leader
+# Acceptor 6 accepts 4 as new leader
+### Proposer 3 is elected as leader
+# Proposer 3 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 3 proposed seq_num 5 for client 0 request 2 and message Hello 2
+##### Learner 1 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+##### Learner 5 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+### Client 1 request 0 complete
+# Client 2 broadcast request 1
+# Acceptor 3 accepts 4 as new leader
+##### Learner 3 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+### Client 1 sending request # 1 message Hello 1
+# Client 0 broadcast request 2
+# Client 2 broadcast request 1
+# Replica 5 starts an proposer election
+# Acceptor 2 accepts 5 as new leader
+# Acceptor 6 accepts 5 as new leader
+### Proposer 4 is elected as leader
+# Proposer 4 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 4 proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Client 1 broadcast request 1
+##### Learner 0 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+# Proposer 4 proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Acceptor 4 accepts 5 as new leader
+# Client 0 broadcast request 2
+##### Learner 4 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+### Client 2 request 1 complete
+### Client 2 sending request # 2 message Hello 2
+# Client 1 broadcast request 1
+# Replica 6 starts an proposer election
+# Acceptor 4 accepts 6 as new leader# Acceptor 3 accepts 6 as new leader# Acceptor 0 accepts 6 as new leader
+
+
+# Client 0 broadcast request 2
+# Client 2 broadcast request 2
+# Acceptor 5 accepts 6 as new leader
+# Client 1 broadcast request 1
+# Client 0 broadcast request 2
+# Replica 0 starts an proposer election
+# Acceptor 2 accepts 7 as new leader
+# Acceptor 3 accepts 7 as new leader
+# Acceptor 4 accepts 7 as new leader
+# Acceptor 5 accepts 7 as new leader
+# Client 2 broadcast request 2
+### Proposer 6 is elected as leader
+# Proposer 6 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Acceptor 6 accepts 7 as new leader
+# Client 1 broadcast request 1
+# Client 0 broadcast request 2
+# Client 2 broadcast request 2
+# Replica 1 starts an proposer election
+# Acceptor 3 accepts 8 as new leader
+# Acceptor 5 accepts 8 as new leader
+# Acceptor 6 accepts 8 as new leader
+### Proposer 0 is elected as leader
+# Proposer 0 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 0 proposed seq_num 7 for client 2 request 2 and message Hello 2
+##### Learner 6 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 4 HASH 1930 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0)]
+##### Learner 5 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+##### Learner 4 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+### Client 1 request 1 complete
+### Client 0 request 2 complete
+# Acceptor 0 accepts 8 as new leader
+### Client 0 sending request # 3 message Hello 3
+# Client 2 broadcast request 2
+### Client 1 sending request # 2 message Hello 2
+### Proposer 1 is elected as leader
+# Proposer 1 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 1 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 1 proposed seq_num 7 for client 2 request 2 and message Hello 2
+##### Learner 1 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+##### Learner 0 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+# Proposer 1 proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 1 proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Client 2 broadcast request 2
+# Client 0 broadcast request 3
+##### Learner 0 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+# Client 1 broadcast request 2
+##### Learner 5 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+### Client 2 request 2 complete
+##### Learner 4 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+### Client 2 sending request # 3 message Hello 3
+# Replica 2 starts an proposer election
+# Acceptor 5 accepts 9 as new leader
+# Acceptor 4 accepts 9 as new leader
+### Client 0 request 3 complete
+# Acceptor 3 accepts 9 as new leader
+# Acceptor 0 accepts 9 as new leader
+# Acceptor 6 accepts 9 as new leader
+##### Learner 1 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+### Client 0 sending request # 4 message Hello 4
+# Proposer 1 proposed seq_num 10 for client 2 request 3 and message Hello 3
+# Acceptor 1 accepts 9 as new leader
+# Client 1 broadcast request 2
+# Client 2 broadcast request 3
+# Client 0 broadcast request 4
+### Proposer 2 is elected as leader
+# Proposer 2 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 2 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Client 1 broadcast request 2
+##### Proposer 2 holes deque([])
+# Proposer 2 proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 2 proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Client 2 broadcast request 3
+##### Learner 3 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+##### Learner 4 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+# Client 0 broadcast request 4
+##### Learner 2 EXECUTION HISTORY SEQ NUM 6 HASH 2850 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 8 HASH 3775 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+### Client 1 request 2 complete
+##### Learner 5 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+# Replica 3 starts an proposer election
+##### Learner 0 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+### Client 0 request 4 complete
+##### Learner 2 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+# Acceptor 4 accepts 10 as new leader
+# Acceptor 0 accepts 10 as new leader
+# Acceptor 6 accepts 10 as new leader
+# Client 2 broadcast request 3
+# Acceptor 2 accepts 10 as new leader
+### Client 1 sending request # 3 message Hello 3
+### Client 0 sending request # 5 message Hello 5
+# Client 2 broadcast request 3
+# Replica 4 starts an proposer election
+# Acceptor 1 accepts 11 as new leader
+# Acceptor 6 accepts 11 as new leader# Acceptor 2 accepts 11 as new leader# Acceptor 0 accepts 11 as new leader
+
+
+##### Learner 3 EXECUTION HISTORY SEQ NUM 8 HASH 3776 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3)]
+##### Learner 3 EXECUTION HISTORY SEQ NUM 10 HASH 4705 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2)]
+### Client 2 request 3 complete
+# Client 1 broadcast request 3
+### Proposer 3 is elected as leader
+# Proposer 3 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 3 proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 3 proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Acceptor 3 accepts 11 as new leader
+### Client 2 sending request # 4 message Hello 4
+# Client 0 broadcast request 5
+##### Learner 1 EXECUTION HISTORY SEQ NUM 10 HASH 4704 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2)]
+# Client 1 broadcast request 3
+# Replica 5 starts an proposer election
+# Acceptor 0 accepts 12 as new leader
+# Acceptor 3 accepts 12 as new leader
+# Acceptor 2 accepts 12 as new leader# Acceptor 1 accepts 12 as new leader
+
+# Acceptor 6 accepts 12 as new leader
+### Proposer 4 is elected as leader
+# Proposer 4 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 4 proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Proposer 4 proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 4 proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Acceptor 4 accepts 12 as new leader
+# Client 1 broadcast request 3
+# Client 0 broadcast request 5
+# Replica 6 starts an proposer election
+# Acceptor 1 accepts 13 as new leader
+# Acceptor 2 accepts 13 as new leader
+# Acceptor 3 accepts 13 as new leader
+# Acceptor 0 accepts 13 as new leader
+### Proposer 5 is elected as leader
+# Proposer 5 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 5 proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Client 2 broadcast request 4
+# Proposer 5 proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 5 proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Client 1 broadcast request 3
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Replica 0 starts an proposer election
+# Acceptor 1 accepts 14 as new leader
+# Acceptor 3 accepts 14 as new leader
+# Acceptor 4 accepts 14 as new leader
+# Acceptor 5 accepts 14 as new leader
+### Proposer 6 is elected as leader
+# Proposer 6 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 6 proposed seq_num 11 for client 0 request 5 and message Hello 5
+# Client 1 broadcast request 3
+# Client 0 broadcast request 5
+# Proposer 6 proposed seq_num 12 for client 2 request 4 and message Hello 4
+# Acceptor 6 accepts 14 as new leader
+# Client 2 broadcast request 4
+# Client 1 broadcast request 3
+# Replica 1 starts an proposer election
+# Acceptor 2 accepts 15 as new leader
+# Acceptor 3 accepts 15 as new leader
+# Acceptor 4 accepts 15 as new leader
+# Acceptor 5 accepts 15 as new leader
+# Acceptor 6 accepts 15 as new leader
+### Proposer 0 is elected as leader
+# Proposer 0 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 0 proposed seq_num 11 for client 2 request 4 and message Hello 4
+# Client 0 broadcast request 5
+# Proposer 0 proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 0 proposed seq_num 13 for client 0 request 5 and message Hello 5
+# Client 2 broadcast request 4
+# Client 1 broadcast request 3
+# Client 0 broadcast request 5
+# Replica 2 starts an proposer election
+# Acceptor 6 accepts 16 as new leader
+# Acceptor 0 accepts 16 as new leader# Acceptor 3 accepts 16 as new leader
+
+# Acceptor 4 accepts 16 as new leader
+# Acceptor 5 accepts 16 as new leader
+### Proposer 1 is elected as leader
+# Proposer 1 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 1 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 1 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 1 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Client 2 broadcast request 4
+# Proposer 1 proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Client 1 broadcast request 3
+# Acceptor 1 accepts 16 as new leader
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Replica 3 starts an proposer election
+# Acceptor 5 accepts 17 as new leader
+# Acceptor 4 accepts 17 as new leader# Acceptor 0 accepts 17 as new leader
+
+# Acceptor 1 accepts 17 as new leader
+# Acceptor 6 accepts 17 as new leader
+### Proposer 2 is elected as leader
+# Proposer 2 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 2 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 2 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 2 RE-proposed seq_num 11 for client 0 request 5 and message Hello 5
+# Proposer 2 RE-proposed seq_num 12 for client 2 request 4 and message Hello 4
+# Client 1 broadcast request 3
+# Proposer 2 proposed seq_num 13 for client 1 request 3 and message Hello 3
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Client 1 broadcast request 3
+# Replica 4 starts an proposer election
+# Acceptor 1 accepts 18 as new leader
+# Acceptor 6 accepts 18 as new leader
+# Acceptor 0 accepts 18 as new leader# Acceptor 2 accepts 18 as new leader
+
+### Proposer 3 is elected as leader
+# Proposer 3 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 3 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 3 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Acceptor 3 accepts 18 as new leader
+# Client 1 broadcast request 3
+### Proposer 4 is elected as leader
+# Proposer 4 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 4 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 4 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Client 0 broadcast request 5
+# Client 2 broadcast request 4
+# Client 1 broadcast request 3
+##### Learner 0 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+##### Learner 1 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+### Client 1 request 3 complete
+# Client 0 broadcast request 5
+##### Learner 5 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+##### Learner 3 EXECUTION HISTORY SEQ NUM 12 HASH 5718 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+# Client 2 broadcast request 4
+# Replica 5 starts an proposer election
+##### Learner 0 EXECUTION HISTORY SEQ NUM 14 HASH 6737 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4)]
+##### Learner 1 EXECUTION HISTORY SEQ NUM 14 HASH 6737 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4)]
+# Acceptor 0 accepts 19 as new leader
+### Client 2 request 4 complete
+### Client 0 request 5 complete
+##### Learner 3 EXECUTION HISTORY SEQ NUM 14 HASH 6738 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4)]
+# Acceptor 2 accepts 19 as new leader
+# Acceptor 3 accepts 19 as new leader
+##### Learner 4 EXECUTION HISTORY SEQ NUM 12 HASH 5717 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3)]
+### Client 2 sending request # 5 message Hello 5
+### Client 1 sending request # 4 message Hello 4
+# Acceptor 4 accepts 19 as new leader
+### Client 0 sending request # 6 message Hello 6
+##### Learner 5 EXECUTION HISTORY SEQ NUM 14 HASH 6737 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4)]
+# Client 2 broadcast request 5
+# Replica 6 starts an proposer election
+# Acceptor 1 accepts 20 as new leader# Acceptor 0 accepts 20 as new leader
+
+# Acceptor 2 accepts 20 as new leader
+# Acceptor 3 accepts 20 as new leader
+# Client 1 broadcast request 4
+### Proposer 5 is elected as leader
+# Proposer 5 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 5 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 5 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 5 proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Acceptor 5 accepts 20 as new leader
+##### Learner 2 EXECUTION HISTORY SEQ NUM 14 HASH 6737 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4)]
+# Client 2 broadcast request 5
+# Client 1 broadcast request 4
+# Replica 0 starts an proposer election
+# Acceptor 2 accepts 21 as new leader
+# Client 0 broadcast request 6
+# Acceptor 4 accepts 21 as new leader
+# Acceptor 5 accepts 21 as new leader
+# Acceptor 3 accepts 21 as new leader
+### Proposer 6 is elected as leader
+# Proposer 6 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 6 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 6 proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 6 proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Acceptor 6 accepts 21 as new leader
+# Client 2 broadcast request 5
+# Client 1 broadcast request 4
+# Client 0 broadcast request 6
+# Replica 1 starts an proposer election
+# Acceptor 2 accepts 22 as new leader
+# Acceptor 3 accepts 22 as new leader
+# Acceptor 5 accepts 22 as new leader
+# Acceptor 6 accepts 22 as new leader
+### Proposer 0 is elected as leader
+# Proposer 0 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 0 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 12 for client 0 request 5 and message Hello 5
+# Proposer 0 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 0 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 0 proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 0 proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Client 2 broadcast request 5
+# Client 1 broadcast request 4
+# Client 0 broadcast request 6
+# Acceptor 0 accepts 22 as new leader
+### Proposer 1 is elected as leader
+# Proposer 1 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 1 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 1 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 1 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 1 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 1 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 1 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 1 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 1 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 1 proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Client 2 broadcast request 5
+# Client 1 broadcast request 4
+# Client 0 broadcast request 6
+### Client 2 request 5 complete
+##### Learner 6 EXECUTION HISTORY SEQ NUM 14 HASH 6736 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4)]
+##### Learner 5 EXECUTION HISTORY SEQ NUM 16 HASH 7762 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+### Client 1 request 4 complete
+##### Learner 0 EXECUTION HISTORY SEQ NUM 16 HASH 7762 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+##### Learner 4 EXECUTION HISTORY SEQ NUM 14 HASH 6736 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4)]
+##### Learner 4 EXECUTION HISTORY SEQ NUM 16 HASH 7761 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 16 HASH 7762 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+##### Learner 3 EXECUTION HISTORY SEQ NUM 16 HASH 7763 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 16 HASH 7761 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+# Client 0 broadcast request 6
+# Replica 2 starts an proposer election
+# Acceptor 5 accepts 23 as new leader
+# Acceptor 6 accepts 23 as new leader
+# Acceptor 4 accepts 23 as new leader
+### Client 1 sending request # 5 message Hello 5
+### Client 2 sending request # 6 message Hello 6
+##### Learner 1 EXECUTION HISTORY SEQ NUM 16 HASH 7762 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4)]
+### Client 0 request 6 complete
+# Acceptor 1 accepts 23 as new leader
+# Client 1 broadcast request 5
+### Client 0 sending request # 7 message Hello 7
+### Proposer 2 is elected as leader
+# Proposer 2 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 2 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 2 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 2 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 2 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 2 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 2 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 2 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 2 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 2 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 2 proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Client 2 broadcast request 6
+# Proposer 2 proposed seq_num 18 for client 1 request 5 and message Hello 5
+# Proposer 2 proposed seq_num 19 for client 0 request 7 and message Hello 7
+# Client 1 broadcast request 5
+# Client 0 broadcast request 7
+# Client 2 broadcast request 6
+# Client 1 broadcast request 5
+# Client 0 broadcast request 7
+##### Learner 4 EXECUTION HISTORY SEQ NUM 18 HASH 8792 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 18 HASH 8792 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+##### Learner 3 EXECUTION HISTORY SEQ NUM 18 HASH 8794 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+### Client 2 request 6 complete
+##### Learner 0 EXECUTION HISTORY SEQ NUM 18 HASH 8793 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+##### Learner 1 EXECUTION HISTORY SEQ NUM 18 HASH 8793 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+##### Learner 5 EXECUTION HISTORY SEQ NUM 18 HASH 8793 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+### Client 1 request 5 complete
+# Replica 3 starts an proposer election
+# Acceptor 4 accepts 24 as new leader
+# Acceptor 0 accepts 24 as new leader
+# Acceptor 6 accepts 24 as new leader
+##### Learner 5 EXECUTION HISTORY SEQ NUM 20 HASH 9827 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+# Acceptor 1 accepts 24 as new leader### Client
+ 1 sending request # 6 message Hello 6
+### Client 0 request 7 complete
+### Client 2 sending request # 7 message Hello 7
+### Client 0 sending request # 8 message Hello 8
+# Client 1 broadcast request 6
+# Client 2 broadcast request 7
+# Proposer 2 proposed seq_num 20 for client 2 request 7 and message Hello 7
+### Proposer 3 is elected as leader
+# Proposer 3 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 3 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 3 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 3 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 3 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 3 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 3 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 3 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 3 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 3 RE-proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Proposer 3 RE-proposed seq_num 18 for client 1 request 5 and message Hello 5
+# Proposer 3 RE-proposed seq_num 19 for client 0 request 7 and message Hello 7
+# Proposer 3 proposed seq_num 20 for client 2 request 7 and message Hello 7
+# Proposer 3 proposed seq_num 21 for client 0 request 8 and message Hello 8
+# Client 1 broadcast request 6
+# Client 2 broadcast request 7
+# Client 0 broadcast request 8
+# Client 1 broadcast request 6
+# Client 2 broadcast request 7
+##### Learner 2 EXECUTION HISTORY SEQ NUM 18 HASH 8793 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6)]
+##### Learner 0 EXECUTION HISTORY SEQ NUM 20 HASH 9827 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+# Client 0 broadcast request 8
+##### Learner 4 EXECUTION HISTORY SEQ NUM 20 HASH 9826 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+##### Learner 1 EXECUTION HISTORY SEQ NUM 20 HASH 9827 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+##### Learner 2 EXECUTION HISTORY SEQ NUM 20 HASH 9827 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 20 HASH 9826 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+### Client 2 request 7 complete
+##### Learner 4 EXECUTION HISTORY SEQ NUM 22 HASH 10850 
+##### Learner 4 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+# Replica 4 starts an proposer election
+### Client 2 sending request # 8 message Hello 8
+##### Learner 3 EXECUTION HISTORY SEQ NUM 20 HASH 9828 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7)]
+# Proposer 3 proposed seq_num 22 for client 1 request 6 and message Hello 6
+# Acceptor 0 accepts 25 as new leader
+# Acceptor 2 accepts 25 as new leader
+##### Learner 1 EXECUTION HISTORY SEQ NUM 22 HASH 10851 
+##### Learner 1 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+# Acceptor 1 accepts 25 as new leader
+# Client 1 broadcast request 6
+##### Learner 5 EXECUTION HISTORY SEQ NUM 22 HASH 10851 
+##### Learner 5 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+##### Learner 6 EXECUTION HISTORY SEQ NUM 22 HASH 10850 
+##### Learner 6 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 1, 3), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+# Acceptor 5 accepts 25 as new leader
+### Client 0 request 8 complete
+##### Learner 3 EXECUTION HISTORY SEQ NUM 22 HASH 10852 
+##### Learner 3 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 3), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+# Acceptor 3 accepts 25 as new leader
+### Client 0 sending request # 9 message Hello 9
+# Client 1 broadcast request 6
+# Replica 5 starts an proposer election
+# Acceptor 0 accepts 26 as new leader
+# Acceptor 2 accepts 26 as new leader# Acceptor 1 accepts 26 as new leader
+# Acceptor 3 accepts 26 as new leader
+
+# Client 2 broadcast request 8
+### Proposer 4 is elected as leader
+# Proposer 4 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 4 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 4 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 4 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 4 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 4 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 4 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 4 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 4 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 4 RE-proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Proposer 4 RE-proposed seq_num 18 for client 1 request 5 and message Hello 5
+# Proposer 4 RE-proposed seq_num 19 for client 0 request 7 and message Hello 7
+# Proposer 4 RE-proposed seq_num 20 for client 2 request 7 and message Hello 7
+# Proposer 4 RE-proposed seq_num 21 for client 0 request 8 and message Hello 8
+# Proposer 4 proposed seq_num 22 for client 1 request 6 and message Hello 6
+# Proposer 4 proposed seq_num 23 for client 2 request 8 and message Hello 8
+# Acceptor 4 accepts 26 as new leader
+# Client 0 broadcast request 9
+# Client 1 broadcast request 6
+##### Learner 2 EXECUTION HISTORY SEQ NUM 22 HASH 10851 
+##### Learner 2 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+##### Learner 0 EXECUTION HISTORY SEQ NUM 22 HASH 10851 
+##### Learner 0 EXECUTION HISTORY [(0, 0, 0), (1, 2, 0), (2, 0, 1), (3, 1, 0), (4, 2, 1), (5, 0, 2), (6, 1, 1), (7, 2, 2), (8, 0, 3), (9, 1, 2), (10, 0, 4), (11, 1, 3), (12, 0, 5), (13, 2, 4), (14, 2, 5), (15, 1, 4), (16, 0, 6), (17, 2, 6), (18, 1, 5), (19, 0, 7), (20, 2, 7), (21, 0, 8)]
+# Client 2 broadcast request 8
+# Replica 6 starts an proposer election
+# Acceptor 1 accepts 27 as new leader
+### Proposer 5 is elected as leader
+# Proposer 5 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 5 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 5 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 5 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 5 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 5 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 5 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 5 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 5 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 5 RE-proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Proposer 5 RE-proposed seq_num 18 for client 1 request 5 and message Hello 5
+# Proposer 5 RE-proposed seq_num 19 for client 0 request 7 and message Hello 7
+# Proposer 5 RE-proposed seq_num 20 for client 2 request 7 and message Hello 7
+# Proposer 5 RE-proposed seq_num 21 for client 0 request 8 and message Hello 8
+# Proposer 5 proposed seq_num 22 for client 1 request 6 and message Hello 6
+# Acceptor 0 accepts 27 as new leader
+# Acceptor 3 accepts 27 as new leader# Acceptor 2 accepts 27 as new leader
+
+# Client 0 broadcast request 9
+# Client 1 broadcast request 6
+# Proposer 5 proposed seq_num 23 for client 0 request 9 and message Hello 9
+# Acceptor 5 accepts 27 as new leader
+# Client 2 broadcast request 8
+### Proposer 6 is elected as leader
+# Proposer 6 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 6 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 6 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 6 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 6 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 6 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 6 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 6 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 6 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 6 RE-proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Proposer 6 RE-proposed seq_num 18 for client 1 request 5 and message Hello 5
+# Proposer 6 RE-proposed seq_num 19 for client 0 request 7 and message Hello 7
+# Proposer 6 RE-proposed seq_num 20 for client 2 request 7 and message Hello 7
+# Proposer 6 RE-proposed seq_num 21 for client 0 request 8 and message Hello 8
+# Proposer 6 RE-proposed seq_num 22 for client 1 request 6 and message Hello 6
+# Proposer 6 proposed seq_num 23 for client 2 request 8 and message Hello 8
+# Client 0 broadcast request 9
+# Client 1 broadcast request 6
+# Client 2 broadcast request 8
+# Proposer 6 proposed seq_num 24 for client 0 request 9 and message Hello 9
+# Client 0 broadcast request 9
+# Client 1 broadcast request 6
+# Client 2 broadcast request 8
+### Client 1 request 6 complete
+# Replica 0 starts an proposer election
+# Client 0 broadcast request 9
+### Client 1 sending request # 7 message Hello 7
+# Acceptor 4 accepts 28 as new leader
+# Client 2 broadcast request 8
+# Acceptor 1 accepts 28 as new leader
+# Acceptor 3 accepts 28 as new leader
+# Client 1 broadcast request 7
+# Client 0 broadcast request 9
+# Replica 1 starts an proposer election
+# Acceptor 3 accepts 29 as new leader
+# Acceptor 6 accepts 28 as new leader
+# Acceptor 4 accepts 29 as new leader
+# Client 2 broadcast request 8
+# Acceptor 6 accepts 29 as new leader
+### Proposer 0 is elected as leader
+# Proposer 0 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 1 for client 2 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 2 for client 0 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 3 for client 1 request 0 and message Hello 0
+# Proposer 0 RE-proposed seq_num 4 for client 2 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 5 for client 0 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 6 for client 1 request 1 and message Hello 1
+# Proposer 0 RE-proposed seq_num 7 for client 2 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 8 for client 0 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 9 for client 1 request 2 and message Hello 2
+# Proposer 0 RE-proposed seq_num 10 for client 0 request 4 and message Hello 4
+# Proposer 0 RE-proposed seq_num 11 for client 1 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 12 for client 1 request 3 and message Hello 3
+# Proposer 0 RE-proposed seq_num 13 for client 2 request 4 and message Hello 4
+# Proposer 0 RE-proposed seq_num 14 for client 2 request 5 and message Hello 5
+# Proposer 0 RE-proposed seq_num 15 for client 1 request 4 and message Hello 4
+# Proposer 0 RE-proposed seq_num 16 for client 0 request 6 and message Hello 6
+# Proposer 0 RE-proposed seq_num 17 for client 2 request 6 and message Hello 6
+# Client 1 broadcast request 7
+# Client 0 broadcast request 9
+# Client 2 broadcast request 8
+### Proposer 1 is elected as leader
+# Proposer 1 RE-proposed seq_num 0 for client 0 request 0 and message Hello 0
+# Client 2 broadcast request 8

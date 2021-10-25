@@ -3,6 +3,7 @@ import socket
 import json
 import time
 import threading
+import sys
 
 from common import send_msg
 
@@ -20,6 +21,9 @@ class Learner:
         self.elected = replica.elected
 
         self.msg_loss = replica.msg_loss
+
+        # log file
+        self.log_file_path = "./results/process_logs/learner{}.txt".format(self.replica_id)
 
 
         # count how many replica accepts this proposal
@@ -74,8 +78,15 @@ class Learner:
         self.executed_sequence.append(seq_content)
         self.execution_history.append((len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq']))
         self.update_client_record(seq_content['client_id'], seq_content['client_seq'], seq_content['client_addr'])
-        print("### Learner {} EXECUTED seq num {} for client {} req {} and message {}".format(self.replica_id, len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq'], seq_content['message']))
-        print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
+        # # print("### Learner {} EXECUTED seq num {} for client {} req {} and message {}".format(self.replica_id, len(self.executed_sequence)-1, seq_content['client_id'], seq_content['client_seq'], seq_content['message']))
+        # print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
+        if len(self.execution_history) % 2 == 0:
+            print("##### Learner {} EXECUTION HISTORY SEQ NUM {} HASH {} ".format(self.replica_id, len(self.execution_history), self.hash(str(self.execution_history))))
+            print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
+            sys.stdout.flush()
+            with open(self.log_file_path, 'a') as f:
+                f.write("##### Learner {} EXECUTION HISTORY SEQ NUM {} HASH {} \n".format(self.replica_id, len(self.execution_history), self.hash(str(self.execution_history))))
+                f.close()
         self.reply_to_client(seq_content)
 
 
@@ -87,7 +98,7 @@ class Learner:
             'client_id': msg['client_id'],
             'client_seq': msg['client_seq'],
             'client_addr': msg['client_addr'],
-            'view': msg['view']
+            'view': self.view[0]
         }
         send_msg((msg['client_addr'][0], msg['client_addr'][1]), new_msg, self.msg_loss)
 
@@ -130,6 +141,7 @@ class Learner:
         msg['new_view_num'] = new_view
         send_msg(self.replica_list[new_view % self.num_replica], msg, self.msg_loss)
 
-
+    def hash(self, key):
+        return sum(bytearray(key.encode('utf-8'))) % 699733
 
     

@@ -4,10 +4,12 @@ import json
 import time
 import threading
 import sys
+import collections
+from typing import Collection
 
 from common import broadcast_msg, send_msg
 
-
+ELECTION_TIMEOUT = 15
 
 class Proposer:
     def __init__(self, replica, acceptor):
@@ -23,6 +25,7 @@ class Proposer:
         self.client_record = replica.client_record
         self.client_addr = replica.client_addr
         self.acceptor_response = replica.acceptor_response
+        self.proposed_record = replica.proposed_record
 
         self.msg_loss = replica.msg_loss
         self.skip_slot = replica.skip_slot
@@ -34,6 +37,7 @@ class Proposer:
         self.elected = replica.elected
         self.in_election = False
         self.pending_request = {}
+        self.holes = collections.deque([])
 
 
     
@@ -43,6 +47,7 @@ class Proposer:
         self.acceptor_response = {}
         self.elected[0] = False
         self.in_election = True
+        
 
         msg = {}
         msg['type'] = 'IAmLeader'
@@ -60,6 +65,15 @@ class Proposer:
             # timeout?
 
         # print("# chatLog value {}".format(self.chatLog[0]))
+
+        # timeout for election
+        cur_time = time.time()
+        while self.in_election == True:
+            time.sleep(1)
+            if time.time() - cur_time > ELECTION_TIMEOUT:
+                self.in_election = False
+                break
+
 
 
     def add_vote(self, msg):
@@ -79,38 +93,44 @@ class Proposer:
         if self.voteCount >= self.f + 1:
             print("### Proposer {} is elected as leader".format(self.replica_id))
             self.merge_and_repropose()
-            self.notify_clients()
+            # self.notify_clients()
             if self.pending_request != {}:
                 self.process_client_request(self.pending_request)
                 self.pending_request = {}
             self.elected[0] = True
             self.in_election = False
 
-    def notify_clients(self):
-        # notify clients about leader change
-        new_msg = {}
-        new_msg['type'] = 'ViewChange'
-        new_msg['view'] = self.view
-        broadcast_msg(self.client_addr, new_msg, self.msg_loss)
+    # def notify_clients(self):
+    #     # notify clients about leader change
+    #     new_msg = {}
+    #     new_msg['type'] = 'ViewChange'
+    #     new_msg['view'] = self.view
+    #     broadcast_msg(self.client_addr, new_msg, self.msg_loss)
 
 
     def merge_and_repropose(self):
         # merge others' pa sequences into my own pa sequence
         for replica_id in self.acceptor_response:
             replica_sequence = self.acceptor_response[replica_id]
-            if len(self.pa_sequence) <= len(replica_sequence):
-                for idx in range(len(self.pa_sequence)):
-                    if self.pa_sequence[idx]['view'] < replica_sequence[idx]['view']:
-                        self.pa_sequence[idx] = replica_sequence[idx]
-                for idx in range(len(self.pa_sequence), len(replica_sequence)):
-                    self.pa_sequence.append(replica_sequence[idx])
-            else:
-                for idx in range(len(replica_sequence)):
-                    if self.pa_sequence[idx]['view'] < replica_sequence[idx]['view']:
-                        self.pa_sequence[idx] = replica_sequence[idx]
+            for idx in range(min(len(self.pa_sequence), len(replica_sequence))):
+                if replica_sequence[idx] == {}:
+                    # if hole
+                    continue
+                if self.pa_sequence[idx] == {} or self.pa_sequence[idx]['view'] < replica_sequence[idx]['view']:
+                    self.pa_sequence[idx] = replica_sequence[idx]
+            for idx in range(min(len(self.pa_sequence), len(replica_sequence)), len(replica_sequence)):
+                self.pa_sequence.append(replica_sequence[idx])
+
         
         # start repropose
         for idx, request in enumerate(self.pa_sequence):
+            if request == {}:
+                if idx not in self.holes:
+                    self.holes.append(idx)
+                continue
+            key = self.get_proposed_record_key(request)
+            if key not in self.proposed_record:
+                self.proposed_record[key] = idx
             new_msg = {}
             new_msg['type'] = 'Proposal'
             new_msg['message'] = request['message']
@@ -120,7 +140,13 @@ class Proposer:
             new_msg['seq_num'] = idx
             new_msg['view'] = self.view[0]       
             print("# Proposer {} RE-proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
+            sys.stdout.flush()
             broadcast_msg(self.replica_list, new_msg, self.msg_loss)
+
+    def get_proposed_record_key(self, msg):
+        client_id = msg['client_id']
+        client_seq = msg['client_seq']
+        return str(client_id)+"_"+str(client_seq)
 
     def view_index(self):
         return self.view[0] % self.num_replica
@@ -128,6 +154,9 @@ class Proposer:
     def process_client_request(self, msg):
         # EMULATE DEAD PROPOSER
         if msg['message'] == "PROPOSER 0 FAIL BEFORE PROPOSAL" and self.replica_id == 0:
+            self.shut_down[0] = True
+            return
+        if msg['message'] == "PROPOSER 0 AND 1 FAIL BEFORE PROPOSAL" and (self.replica_id == 0 or self.replica_id == 1):
             self.shut_down[0] = True
             return
 
@@ -142,21 +171,47 @@ class Proposer:
         new_msg['client_id'] = msg['client_id']
         new_msg['client_seq'] = msg['client_seq']
         new_msg['client_addr'] = msg['client_addr']
-        new_msg['seq_num'] = len(self.pa_sequence)
-        new_msg['view'] = self.view[0]
-        self.pa_sequence.append({
-                'client_id': new_msg['client_id'],
-                'client_seq': new_msg['client_seq'],
-                'client_addr': new_msg['client_addr'],
-                'message': new_msg['message'],
-                'view': new_msg['view']
-        })
-        print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
-        
-        broadcast_msg(self.replica_list, new_msg, self.msg_loss)
-        if msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0:
-            self.shut_down[0] = True
-            return
+
+        key = self.get_proposed_record_key(new_msg)
+        # check if redundant client request
+        if key not in self.proposed_record:
+            # check if there is holes in pa_sequence
+            if len(self.holes) != 0:
+                seq_num = self.holes.popleft()
+                print("##### Proposer {} holes {}".format(self.replica_id, self.holes))
+            else:
+                # add one hole if is initial primary
+                if self.skip_slot == len(self.pa_sequence) and self.replica_id == 0:
+                    self.pa_sequence.append({})
+                seq_num = len(self.pa_sequence)
+
+
+            self.proposed_record[key] = seq_num
+
+            new_msg['seq_num'] = seq_num
+            new_msg['view'] = self.view[0]
+            if seq_num < len(self.pa_sequence):
+                self.pa_sequence[seq_num] = {
+                    'client_id': new_msg['client_id'],
+                    'client_seq': new_msg['client_seq'],
+                    'client_addr': new_msg['client_addr'],
+                    'message': new_msg['message'],
+                    'view': new_msg['view']
+                }
+            else:
+                self.pa_sequence.append({
+                    'client_id': new_msg['client_id'],
+                    'client_seq': new_msg['client_seq'],
+                    'client_addr': new_msg['client_addr'],
+                    'message': new_msg['message'],
+                    'view': new_msg['view']
+                })
+            print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
+            sys.stdout.flush()
+            broadcast_msg(self.replica_list, new_msg, self.msg_loss)
+            if msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0:
+                self.shut_down[0] = True
+                return
 
     def process_view_change_request(self, msg):
         new_view_num = msg['new_view_num']
@@ -170,11 +225,13 @@ class Proposer:
         #     self.pending_request = msg['client_msg']
         #     self.pending_request['type'] = 'ClientRequest'
         #     self.election()
-        if new_view_num == self.view[0] and self.in_election == False:
+        if new_view_num > self.view[0] and self.in_election == False:
             print("# Replica {} starts an proposer election".format(self.replica_id))
             self.pending_request = msg['client_msg']
             self.pending_request['type'] = 'ClientRequest'
-            self.election()
+            self.view[0] = new_view_num
+            election_thread = threading.Thread(target=self.election())
+            election_thread.start()
 
     # def warm_up(self):
     #     self.readyCount += 1

@@ -20,7 +20,7 @@ class Acceptor:
         self.pa_sequence = replica.pa_sequence
         self.client_record = replica.client_record
         self.client_addr = replica.client_addr
-
+        self.num_replica = replica.num_replica
         self.msg_loss = replica.msg_loss
 
     def change_leader(self, msg):

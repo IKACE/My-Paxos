@@ -14,7 +14,7 @@ class Replica:
     def __init__(self, f, replica_list, replica_id, view, skip_slot, msg_loss):
         """init replica
          replica_list: ip and port tuples for each replica"""
-        print("# Replica {} initializing".format(replica_id))
+        # print("# Replica {} initializing".format(replica_id))
         sys.stdout.flush()
         self.f = f
         self.replica_list = replica_list
@@ -34,7 +34,7 @@ class Replica:
 
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
-        self.listen_socket.listen(100)
+        self.listen_socket.listen(10000)
         # assume timeout 1, less than client timeout time
         # self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
@@ -43,9 +43,13 @@ class Replica:
         # a array of proposed values shared by proposer and acceptor
         self.pa_sequence = []
 
-        # record of clients requests
+        # record of learned clients requests
         # format: dic client_id -> {client_seq []]}
         self.client_record = {}
+
+        # record of proposed client requests
+        self.proposed_record = {}
+
         # list of received client address
         self.client_addr = []
 
@@ -89,7 +93,7 @@ class Replica:
                 except socket.error:
                     continue
                 send_socket.sendall(msg.encode('utf-8'))
-                print("# Replica {} send ready up message to {} {}".format(self.replica_id, idx, replicaAddr))
+                # print("# Replica {} send ready up message to {} {}".format(self.replica_id, idx, replicaAddr))
                 send_socket.close()
                 break
         # time.sleep(1)
@@ -135,7 +139,7 @@ class Replica:
             elif msg['type'] == 'YouAreLeader':
                 self.proposer.add_vote(msg)
             elif msg['type'] == 'Ready':
-                print("# Replica {} received ready up message from {}".format(self.replica_id, msg['replica_id'])) 
+                # print("# Replica {} received ready up message from {}".format(self.replica_id, msg['replica_id'])) 
                 self.readyCount += 1
             elif msg['type'] == 'ClientRequest':
                 # check if request has been processed

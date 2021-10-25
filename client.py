@@ -10,16 +10,18 @@ from common import send_msg, broadcast_msg
 class Client:
     
 
-    def __init__(self, replica_list, client_id, view, IP, port, msg_loss):
+    def __init__(self, replica_list, client_id, view, IP, port, msg_loss, f):
         """INPUT: replica_list: a list of tuple containing IP and port for replica, 
         client_id: unique identifier for client, view: leader number, 
         IP: client IP, port: client port"""
         print("### Client", client_id, "initializing")
+        self.num_replicas = 2*f + 1
         self.replica_list = replica_list
         self.client_id = client_id
         self.view = view
         self.addr = (IP, port)
         self.seq = 0
+
         self.finished = False
 
         self.view_change = False
@@ -48,7 +50,7 @@ class Client:
         msg['client_addr'] = self.addr
         msg['client_view'] = self.view
         # prepare to send message
-        send_msg(self.replica_list[self.view], msg, self.msg_loss)
+        send_msg(self.replica_list[self.view_index()], msg, self.msg_loss)
 
         self.finished = False
         # callback ?
@@ -57,7 +59,7 @@ class Client:
             if self.view_change == True:
                 self.view_change = False
                 msg['client_view'] = self.view
-                send_msg(self.replica_list[self.view], msg, self.msg_loss)
+                send_msg(self.replica_list[self.view_index()], msg, self.msg_loss)
                 time_sent = time.time()
 
             if time.time() - time_sent >= REQUEST_TIMEOUT:
@@ -69,6 +71,8 @@ class Client:
             continue
         print("### Client {} request {} complete".format(self.client_id, self.seq))
         self.seq += 1
+    def view_index(self):
+        return self.view % self.num_replicas
 
     def send_batch_messages(self, mList):
         """method for sending batch messages, mList: list of messages """
