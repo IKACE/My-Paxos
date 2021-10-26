@@ -14,7 +14,7 @@ def send_msg(receiver_addr, msg, msg_loss):
         send_socket.connect(receiver_addr)
         send_socket.sendall(msg.encode('utf-8'))
         send_socket.close()
-    except Exception:
+    except Exception as e:
         return
 
 

@@ -30,6 +30,7 @@ class Replica:
         self.view = [view]
         self.elected = [False]
         self.last_view_change = [0]
+        
 
         self.addr = (replica_list[replica_id][0], replica_list[replica_id][1])
 

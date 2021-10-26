@@ -141,7 +141,7 @@ class Learner:
 
 
     def notify_view_change(self, client_msg):
-        new_view = self.view[0] + 1
+        new_view = int(self.view[0] + (time.time()-self.last_view_change[0]) // VIEW_CHANGE_INTERVAL)
         msg = {}
         msg['type'] = 'LeaderChangeToYou'
         msg['replica_id'] = self.replica_id
