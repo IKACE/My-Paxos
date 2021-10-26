@@ -8,7 +8,7 @@ import os
 
 from common import send_msg
 
-VIEW_CHANGE_INTERVAL = 10
+VIEW_CHANGE_INTERVAL = 20
 
 class Learner:
     def __init__(self, replica):
@@ -141,7 +141,8 @@ class Learner:
 
 
     def notify_view_change(self, client_msg):
-        new_view = int(self.view[0] + (time.time()-self.last_view_change[0]) // VIEW_CHANGE_INTERVAL)
+        new_view = self.view[0] + int((time.time()-self.last_view_change[0]) // VIEW_CHANGE_INTERVAL)
+        # new_view = self.view[0] + 1
         msg = {}
         msg['type'] = 'LeaderChangeToYou'
         msg['replica_id'] = self.replica_id

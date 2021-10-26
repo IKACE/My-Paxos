@@ -4,7 +4,7 @@ import json
 import time
 import threading
 
-REQUEST_TIMEOUT = 10
+REQUEST_TIMEOUT = 30
 from common import send_msg, broadcast_msg
 
 class Client:
