@@ -5,11 +5,6 @@ from multiprocessing import Process
 from client import Client
 from replica import Replica
 
-DEFAULT_NUM_CLIENT = 20
-
-# ["--skip_slot", "0",
-                    #  "--f", "3",
-                    #  "--msg_loss", "20"] 3 clients
 
 # TEST_TYPE = 'SINGLE CLIENT SINGLE REQ'
 # TEST_TYPE = 'SINGLE CLIENT MULTIPLE REQ'
