@@ -10,6 +10,7 @@ from typing import Collection
 from common import broadcast_msg, send_msg
 
 ELECTION_TIMEOUT = 15
+ELECTION_WAIT_TIME = 5
 
 class Proposer:
     def __init__(self, replica, acceptor):
@@ -35,9 +36,12 @@ class Proposer:
         self.acceptor = acceptor
 
         self.elected = replica.elected
+        self.election_start_time = 0
         self.in_election = False
         self.pending_request = {}
         self.holes = collections.deque([])
+
+        self.last_view_change = replica.last_view_change
 
 
     
@@ -67,10 +71,10 @@ class Proposer:
         # print("# chatLog value {}".format(self.chatLog[0]))
 
         # timeout for election
-        cur_time = time.time()
+        self.election_start_time = time.time()
         while self.in_election == True:
             time.sleep(1)
-            if time.time() - cur_time > ELECTION_TIMEOUT:
+            if time.time() - self.election_start_time > ELECTION_TIMEOUT:
                 self.in_election = False
                 break
 
@@ -90,7 +94,7 @@ class Proposer:
         if replica_id not in self.acceptor_response:
             self.acceptor_response[replica_id] = pa_sequence
             self.voteCount += 1
-        if self.voteCount >= self.f + 1:
+        if time.time() - self.election_start_time >= ELECTION_WAIT_TIME and self.voteCount >= self.f + 1:
             print("### Proposer {} is elected as leader".format(self.replica_id))
             self.merge_and_repropose()
             # self.notify_clients()

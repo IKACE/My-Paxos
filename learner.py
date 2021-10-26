@@ -8,6 +8,7 @@ import os
 
 from common import send_msg
 
+VIEW_CHANGE_INTERVAL = 10
 
 class Learner:
     def __init__(self, replica):
@@ -40,6 +41,8 @@ class Learner:
         self.executed_sequence = []
         # a simpler array of execution history for debugging
         self.execution_history = []
+
+        self.last_view_change = replica.last_view_change
 
 
     def process_accept(self, msg):
@@ -116,7 +119,7 @@ class Learner:
         # if already executed, Learner asserts that reponse to client is lost due to asynchronous network
         if self.request_executed(client_id, client_seq):
             self.reply_to_client(msg)
-        else:
+        elif time.time() - self.last_view_change[0] > VIEW_CHANGE_INTERVAL:
             self.notify_view_change(msg)
 
 

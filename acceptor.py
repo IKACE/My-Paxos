@@ -22,6 +22,7 @@ class Acceptor:
         self.client_addr = replica.client_addr
         self.num_replica = replica.num_replica
         self.msg_loss = replica.msg_loss
+        self.last_view_change = replica.last_view_change
 
     def change_leader(self, msg):
         # modular?
@@ -41,6 +42,7 @@ class Acceptor:
             # for new leader to send leader change notification to clients
             new_msg['client_addr'] = self.client_addr
             send_msg((leader_addr[0], leader_addr[1]), new_msg, self.msg_loss)
+            self.last_view_change[0] = time.time()
 
 
     def view_index(self):

@@ -29,6 +29,7 @@ class Replica:
         # mutable 
         self.view = [view]
         self.elected = [False]
+        self.last_view_change = [0]
 
         self.addr = (replica_list[replica_id][0], replica_list[replica_id][1])
 
@@ -64,7 +65,6 @@ class Replica:
         self.proposer = Proposer(self, self.acceptor)
 
         self.readyCount = 1
-
 
         # make sure we have all/>=f+1? processes then proceed
         self.warm_up()
