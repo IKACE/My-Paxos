@@ -38,7 +38,7 @@ class Proposer:
         self.elected = replica.elected
         self.election_start_time = 0
         self.in_election = False
-        self.pending_request = {}
+        
         self.holes = collections.deque([])
 
         self.last_view_change = replica.last_view_change
@@ -73,8 +73,9 @@ class Proposer:
         # timeout for election
         self.election_start_time = time.time()
         while self.in_election == True:
-            time.sleep(1)
-            if time.time() - self.election_start_time > ELECTION_TIMEOUT:
+            time.sleep(0.2)
+            cur_time = time.time()
+            if cur_time - self.election_start_time >= ELECTION_TIMEOUT:
                 self.in_election = False
                 break
 
@@ -94,13 +95,11 @@ class Proposer:
         if replica_id not in self.acceptor_response:
             self.acceptor_response[replica_id] = pa_sequence
             self.voteCount += 1
-        if time.time() - self.election_start_time >= ELECTION_WAIT_TIME and self.voteCount >= self.f + 1:
+
+        if self.voteCount >= self.f + 1:
             print("### Proposer {} is elected as leader".format(self.replica_id))
             self.merge_and_repropose()
             # self.notify_clients()
-            if self.pending_request != {}:
-                self.process_client_request(self.pending_request)
-                self.pending_request = {}
             self.elected[0] = True
             self.in_election = False
 
@@ -127,10 +126,11 @@ class Proposer:
 
         
         # start repropose
+        # CLEAR HOLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :(((((
+        self.holes = collections.deque([])
         for idx, request in enumerate(self.pa_sequence):
             if request == {}:
-                if idx not in self.holes:
-                    self.holes.append(idx)
+                self.holes.append(idx)
                 continue
             key = self.get_proposed_record_key(request)
             if key not in self.proposed_record:
@@ -181,8 +181,8 @@ class Proposer:
         if key not in self.proposed_record:
             # check if there is holes in pa_sequence
             if len(self.holes) != 0:
-                seq_num = self.holes.popleft()
                 print("##### Proposer {} holes {}".format(self.replica_id, self.holes))
+                seq_num = self.holes.popleft()
             else:
                 # add one hole if is initial primary
                 if self.skip_slot == len(self.pa_sequence) and self.replica_id == 0:
@@ -233,8 +233,6 @@ class Proposer:
         #     self.election()
         if new_view_num > self.view[0] and self.in_election == False:
             print("# Replica {} starts an proposer election".format(self.replica_id))
-            self.pending_request = msg['client_msg']
-            self.pending_request['type'] = 'ClientRequest'
             self.view[0] = new_view_num
             election_thread = threading.Thread(target=self.election())
             election_thread.start()

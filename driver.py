@@ -80,7 +80,7 @@ def main():
     # need to write run_client (args to be modified)
     # each client know all replicas
     client_process_list = []
-    sleep(10)
+    sleep(15)
 
     if TEST_TYPE == 'SINGLE CLIENT SINGLE REQ':
         msg = "Hello World!"
@@ -126,7 +126,7 @@ def main():
         p = Process(target=send_batch_message, args=(replica_list, 1, 0, 'localhost', (2345+1), message_list, msg_loss, f))
         client_process_list.append(p)
     elif TEST_TYPE == 'STRESS TEST 0':
-        for client_id in range(3):
+        for client_id in range(5):
             p = Process(target=send_random_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), msg_loss, f))
             client_process_list.append(p)     
     # start all client processes in the list

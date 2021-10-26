@@ -89,7 +89,7 @@ class Replica:
                 continue
             while True:
 
-                time.sleep(1)
+                time.sleep(0.2)
                 send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
                     send_socket.connect(replicaAddr)
@@ -101,7 +101,7 @@ class Replica:
                 break
         # time.sleep(1)
         while self.readyCount != 2*self.f+1:
-            time.sleep(1)
+            time.sleep(0.2)
 
 
     def view_index(self):

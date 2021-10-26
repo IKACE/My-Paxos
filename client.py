@@ -59,10 +59,11 @@ class Client:
             if self.view_change == True:
                 self.view_change = False
                 msg['client_view'] = self.view
+                print("# Client {} send request {} to new view {}".format(self.client_id, self.seq, self.view))
                 send_msg(self.replica_list[self.view_index()], msg, self.msg_loss)
                 time_sent = time.time()
 
-            if time.time() - time_sent >= REQUEST_TIMEOUT:
+            elif time.time() - time_sent >= REQUEST_TIMEOUT:
                 print("# Client {} broadcast request {}".format(self.client_id, self.seq))
                 self.send_request_to_all(m)
                 time_sent = time.time()
