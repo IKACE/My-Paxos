@@ -104,7 +104,7 @@ def main():
             client_process_list.append(p) 
     elif TEST_TYPE == 'PROPOSER 0 FAIL AFTER PROPOSAL':
         message_list = ['PROPOSER 0 FAIL AFTER PROPOSAL', 'Hello 1', 'Hello 2', 'Hello 3']
-        for client_id in range(1):
+        for client_id in range(5):
             p = Process(target=send_batch_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), message_list, msg_loss, f))
             client_process_list.append(p) 
     elif TEST_TYPE == 'PROPOSER 0 AND 1 FAIL BEFORE PROPOSAL':
@@ -121,7 +121,7 @@ def main():
         p = Process(target=send_batch_message, args=(replica_list, 1, 0, 'localhost', (2345+1), message_list, msg_loss, f))
         client_process_list.append(p)
     elif TEST_TYPE == 'STRESS TEST 0':
-        for client_id in range(5):
+        for client_id in range(30):
             p = Process(target=send_random_message, args=(replica_list, client_id, 0, 'localhost', (2345+client_id), msg_loss, f))
             client_process_list.append(p)     
     # start all client processes in the list
@@ -154,7 +154,7 @@ def send_batch_message(replica_list, client_id, view, IP, port, message_list, ms
 def send_random_message(replica_list, client_id, view, IP, port, msg_loss, f):
     client = Client(replica_list, client_id, view, IP, port, msg_loss, f)
     count = 0
-    while count < 100:
+    while count < 20:
         sleep(random.randrange(1, 10))
         client.send_message('Hello '+str(count))
         count += 1

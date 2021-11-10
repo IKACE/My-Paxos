@@ -215,7 +215,7 @@ class Proposer:
         print("# Proposer {} proposed seq_num {} for client {} request {} and message {}".format(self.replica_id, new_msg['seq_num'], new_msg['client_id'], new_msg['client_seq'], new_msg['message']))
         sys.stdout.flush()
         broadcast_msg(self.replica_list, new_msg, self.msg_loss)
-        if (msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0) or self.skip_slot == new_msg['seq_num'] - 1:
+        if (msg['message'] == "PROPOSER 0 FAIL AFTER PROPOSAL" and self.replica_id == 0) or  (self.skip_slot == new_msg['seq_num'] - 1 and self.skip_slot != -1 and self.replica_id == 0):
             print("### Proposer {} shut down".format(self.replica_id))
             self.shut_down[0] = True
             return

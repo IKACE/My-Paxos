@@ -91,7 +91,7 @@ class Learner:
         # print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
         if len(self.execution_history) % 2 == 0:
             print("##### Learner {} EXECUTION HISTORY SEQ NUM {} HASH {} ".format(self.replica_id, len(self.execution_history), self.hash(str(self.execution_history))))
-            print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
+            # print("##### Learner {} EXECUTION HISTORY {}".format(self.replica_id, self.execution_history))
             sys.stdout.flush()
             with open(self.log_file_path, 'a') as f:
                 f.write("##### Learner {} EXECUTION HISTORY SEQ NUM {} HASH {} \n".format(self.replica_id, len(self.execution_history), self.hash(str(self.execution_history))))

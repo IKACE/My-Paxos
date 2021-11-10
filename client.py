@@ -32,8 +32,8 @@ class Client:
         self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listen_socket.bind(self.addr)
         self.listen_socket.listen(10000)
-        # assume timeout 5, timeout for client should be longer than in replica
-        self.listen_socket.settimeout(5)
+        # # assume timeout 5, timeout for client should be longer than in replica
+        # self.listen_socket.settimeout(5)
         self.listen_thread = threading.Thread(target=self.listen, args=())
         self.listen_thread.start()
 

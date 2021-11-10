@@ -79,6 +79,6 @@ class Acceptor:
         new_msg['client_addr'] = msg['client_addr']
         new_msg['view'] = msg['view']
         new_msg['seq_num'] = msg['seq_num']
-
+        print("# Acceptor {} broadcast accept  SEQ NUM {} ".format(self.replica_id, msg['seq_num']))
         broadcast_msg(self.replica_list, new_msg, self.msg_loss)
         
