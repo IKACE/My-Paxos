@@ -1,5 +1,5 @@
 # MyPaxos 
-A re-implementation of Paxos (Multi-Paxos).
+A re-implementation of Paxos (Multi-Paxos) on message log service.
 
 ## File Structure
 - acceptor.py: implementation of acceptor class
