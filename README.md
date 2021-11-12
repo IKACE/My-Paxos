@@ -1,4 +1,6 @@
-# MultiPaxos 
+# MyPaxos 
+A re-implementation of Paxos (Multi-Paxos).
+
 ## File Structure
 - acceptor.py: implementation of acceptor class
 - proposer.py: implementation of proposer class
